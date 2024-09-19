@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,10 +20,11 @@ class AuthController extends Controller
 
 
     public function register(Request $request) {
+        Log::info('Register method hit');
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:1|confirmed',
         ]);
         $user = User::create([
             'name' => $validatedData['name'],
@@ -30,4 +34,5 @@ class AuthController extends Controller
         $token = $user->createToken('authToken')->accessToken;
         return response()->json(['token' => $token], 200);
     }
+    
 }

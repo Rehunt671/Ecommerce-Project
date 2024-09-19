@@ -1,11 +1,50 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    protected $table = 'products';
+
+    protected $fillable = [
+        'name',
+        'description',
+        'category',
+        'price',
+        'stock',
+        'status',
+        'created_at',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'category', 'id');
+    }
+
+    public function promotions()
+    {
+        return $this->hasMany(Promotion::class);
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function salesLogs()
+    {
+        return $this->hasMany(SalesLog::class);
+    }
 }

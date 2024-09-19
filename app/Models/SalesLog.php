@@ -4,19 +4,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wishlist extends Model
+class SalesLog extends Model
 {
-    protected $table = 'wishlists';
+    protected $table = 'sales_log';
 
     protected $fillable = [
-        'user_id',
         'product_id',
+        'quantity_sold',
+        'total_price_sold',
+        'sale_date',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function product()
     {

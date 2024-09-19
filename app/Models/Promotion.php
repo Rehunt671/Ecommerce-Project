@@ -4,19 +4,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wishlist extends Model
+class Promotion extends Model
 {
-    protected $table = 'wishlists';
+    protected $table = 'promotions';
 
     protected $fillable = [
-        'user_id',
         'product_id',
+        'promotion_type',
+        'discount',
+        'buy_x',
+        'get_y',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function product()
     {
