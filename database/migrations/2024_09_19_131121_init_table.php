@@ -16,11 +16,11 @@ class InitTable extends Migration
         // Create users table
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email')->unique();
+            $table->string('name');
+            $table->string('username')->unique();
             $table->string('password');
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -119,5 +119,6 @@ class InitTable extends Migration
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_category');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('sessions');
     }
 }
