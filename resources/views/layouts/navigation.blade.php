@@ -1,7 +1,7 @@
-<nav class="w-full py-4 shadow-md  backdrop-filter backdrop-blur-lg bg-white">
+<nav class="w-full py-4 shadow-md backdrop-filter backdrop-blur-lg bg-white">
     <div class="container mx-auto flex justify-between items-center px-6">
         <!-- Left side: Navigation Links -->
-        <div class="flex space-x-8" >
+        <div class="flex space-x-8">
             <a href="/" class="text-lg font-semibold text-gray-800 hover:text-blue-700">HOME</a>
             <a href="/human" class="text-lg font-semibold text-gray-800 hover:text-blue-700">HUMAN</a>
             <a href="/pet" class="text-lg font-semibold text-gray-800 hover:text-blue-700">PET</a>
