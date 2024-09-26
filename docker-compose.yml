@@ -1,41 +1,52 @@
+version: "3.8"
+
 services:
-  postgres:
-    image: postgres:14
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
-    ports:
-      - "${DB_PORT}:5432"
-    volumes:
-      - data:/var/lib/postgresql/data
+    postgres:
+        image: postgres:14
+        container_name: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+        ports:
+            - "${DB_PORT}:5432"
+        volumes:
+            - data:/var/lib/postgresql/data
+        networks:
+            - shop_network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    depends_on:
-      - postgres
-    ports:
-      - "${PGADMIN_PORT}:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: pgadmin
+        restart: unless-stopped
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        depends_on:
+            - postgres
+        ports:
+            - "${PGADMIN_PORT}:80"
+        volumes:
+            - pgadmin_data:/var/lib/pgadmin
+        networks:
+            - shop_network
 
-  redis:
-    image: redis
-    restart: unless-stopped
-    container_name: redis
-    ports:
-      - "${REDIS_PORT}:6379"
-    volumes:
-      - redis_data:/data
+    redis:
+        image: redis
+        restart: unless-stopped
+        container_name: redis
+        ports:
+            - "${REDIS_PORT}:6379"
+        volumes:
+            - redis_data:/data
+        networks:
+            - shop_network
 
 volumes:
-  data:
-  pgadmin_data:
-  redis_data:
+    data:
+    pgadmin_data:
+    redis_data:
+
+networks:
+    shop_network:
