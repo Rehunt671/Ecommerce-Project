@@ -14,20 +14,6 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Custom Styles -->
-        <style>
-            body {
-                background-image: url('/public/storage/thumb-1920-1354305.jpeg');
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed; /* Makes the background fixed during scroll */
-            }
-
-            nav {
-                background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-                backdrop-filter: blur(10px); /* Optional blur effect */
-            }
-        </style>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">

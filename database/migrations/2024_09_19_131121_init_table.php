@@ -19,8 +19,14 @@ class InitTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -119,6 +125,7 @@ class InitTable extends Migration
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_category');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
 }
