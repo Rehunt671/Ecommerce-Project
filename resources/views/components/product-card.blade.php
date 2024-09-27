@@ -6,10 +6,10 @@
         </h3>
     </div>
     <div class="product-actions flex justify-between mt-6">
-        <button>
+        <button >
             <img src="{{ asset('storage/cart.png') }}" class="w-10 h-auto" alt="Cart" />
         </button>
-        <button>
+        <button >
             <img src="{{ asset('storage/heart.png') }}" class="w-10 h-auto" alt="Heart" />
         </button>
     </div>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h1 class="text-center">HUMAN</h1>
+    <h1>HUMAN</h1>
     <!-- Search Section -->
     <section class="my-10 text-center">
         <div class="flex justify-center items-center bg-gray-200 rounded-full mx-auto w-1/2">
@@ -39,13 +39,10 @@
     <!-- Products Section -->
     <section >
         <div class="grid grid-cols-5 gap-10 justify-items-center">
-            <!-- Product Card 1 -->
             <x-product-card 
-            image="{{ asset('storage/dog_food.png') }}" 
-            price="15,000" 
-        />
-          
-            <!-- Repeat for other cards -->
+                image="{{ asset('storage/dog_food.png') }}" 
+                price="15,000" 
+            /> 
         </div>
     </section>
 </x-app-layout>
