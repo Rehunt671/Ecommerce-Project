@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // Change this line
-use Illuminate\Notifications\Notifiable; // Add this line if you use notifications
+use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Notifications\Notifiable; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable // Change this line
+class User extends Authenticatable 
 {
-    use HasFactory, Notifiable; // Add Notifiable trait if needed
+    use HasFactory, Notifiable;
 
     protected $table = 'users';
 
@@ -21,10 +21,10 @@ class User extends Authenticatable // Change this line
         'updated_at'
     ];
 
-    // Ensure password is hidden when returning user data
+
     protected $hidden = [
-        'password', // Add password to hidden array
-        'remember_token', // Include remember token for authentication
+        'password', 
+        'remember_token',
     ];
 
     public function carts()

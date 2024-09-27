@@ -2,17 +2,16 @@
 
 namespace App\View\Components;
 
+use App\Models\Product; // Make sure to import your Product model
 use Illuminate\View\Component;
 
 class ProductCard extends Component
 {
-    public $image;
-    public $price;
+    public $product;
 
-    public function __construct($image, $price)
+    public function __construct(Product $product)
     {
-        $this->image = $image;
-        $this->price = $price;
+        $this->product = $product; 
     }
 
     public function render()

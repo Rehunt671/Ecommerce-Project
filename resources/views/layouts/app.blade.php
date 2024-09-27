@@ -30,9 +30,26 @@
                 </header>
             @endisset
 
-            <main class="pt-16">
+            <main>
                 {{ $slot }}
             </main>
-        </div>
+            <button id="scrollToTopBtn" class="fixed bottom-20 right-20 hidden bg-pink-500 text-white rounded-full p-3 shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                ↑
+            </button>
+            <script>
+                const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        scrollToTopBtn.classList.remove("hidden");
+                    } else {
+                        scrollToTopBtn.classList.add("hidden");
+                    }
+                };
+
+                scrollToTopBtn.onclick = function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+            </script>
     </body>
 </html>

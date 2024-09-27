@@ -19,6 +19,7 @@ class InitTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('image_name')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -39,7 +40,7 @@ class InitTable extends Migration
         });
         
         // Create product_category table
-        Schema::create('product_category', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
         });
@@ -49,10 +50,11 @@ class InitTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('category')->constrained('product_category');
+            $table->foreignId('category')->constrained('product_categories');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
             $table->string('status');
+            $table->string('image_name')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
 
@@ -77,6 +79,7 @@ class InitTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained();
+            $table->timestamps();
         });
 
         // Create promotions table
@@ -107,6 +110,20 @@ class InitTable extends Migration
             $table->decimal('total_price_sold', 10, 2);
             $table->timestamp('sale_date')->useCurrent();
         });
+
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
+        });
+
+
     }
 
     /**
@@ -123,9 +140,11 @@ class InitTable extends Migration
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
         Schema::dropIfExists('products');
-        Schema::dropIfExists('product_category');
+        Schema::dropIfExists('product_categories');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
     }
 }

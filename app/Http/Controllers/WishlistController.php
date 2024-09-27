@@ -9,12 +9,33 @@ class WishlistController extends Controller
 {
     public function getWishlistProducts() {
         $user = auth()->user();
-        $wishlist = $user->wishlistProducts;
-        return response()->json($wishlist);
+        $wishlists = $user->wishlists;
+        return response()->json($wishlists);
     }
+    
     public function addWishlistProduct(Request $request) {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'category_id' => 'required|exists:products,id',
+        ]);
+    
         $user = auth()->user();
-        $user->wishlistProducts()->attach($request->product_id);
-        return response()->json(['message' => 'Product added to wishlist']);
+        $user->wishlists()->create(['product_id' => $request->product_id]);
+
+        return redirect()->route('products.category', ['id' => $request->category_id])->with('success', 'Product add to wishlist successfully!');
     }
+    
+    public function removeWishlistProduct(Request $request) {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'category_id' => 'required|exists:products,id',
+        ]);
+    
+        $user = auth()->user();
+        $user->wishlists()->where('product_id', $request->product_id)->delete();
+    
+        return redirect()->route('products.category', ['id' => $category])->with('success', 'Product removed from wishlist successfully!');
+    }
+    
+    
 }

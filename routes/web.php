@@ -1,13 +1,19 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController; 
+use App\Http\Controllers\SalesLogController; 
+use App\Http\Controllers\RatingController; 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/products/category/{category}', [ProductController::class, 'getByCategory']);
+Route::get('/products/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -15,7 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/wishlist', [WishlistController::class, 'getWishlistProducts']);
-    Route::post('/wishlist/{product}', [WishlistController::class, 'addWishlistProduct']);
+    Route::post('/wishlist/add', [WishlistController::class, 'addWishlistProduct'])->name('wishlist.add');
+    Route::post('/wishlist/remove', [WishlistController::class, 'removeWishlistProduct'])->name('wishlist.remove');
 
     Route::get('/cart', [CartController::class, 'getCartProducts']);
     Route::post('/cart/{product}', [CartController::class, 'addCartProduct']);
@@ -26,7 +33,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/products/{product}/reviews', [RatingController::class, 'getProductReviews']);
     Route::post('/products/{product}/reviews', [RatingController::class, 'addProductReview']);
-
 });
 
 require __DIR__.'/auth.php';
