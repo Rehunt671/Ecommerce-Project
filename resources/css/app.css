@@ -7,3 +7,23 @@ body {
     background-size: cover; /* Adjust as needed */
     background-position: center;
 }
+
+h1 {
+    /* HUMAN */
+
+    left: 12.34%;
+    right: 61.82%;
+    top: 10%;
+    bottom: 75.93%;
+
+    font-family: "Rubik Bubbles";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 128px;
+    line-height: 152px;
+
+    color: #ebfffe;
+
+    /* border: 1px solid #000000; */
+    text-shadow: 0px 4px 4px #5c41c8;
+}

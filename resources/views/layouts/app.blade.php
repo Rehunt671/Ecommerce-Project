@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        <link href='https://fonts.googleapis.com/css?family=Rubik Bubbles' rel='stylesheet'>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -18,7 +18,7 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen">
 
-            <nav class="bg-gray-100 dark:bg-gray-900">
+            <nav >
                 @include('layouts.navigation')
             </nav>
 
@@ -30,7 +30,7 @@
                 </header>
             @endisset
 
-            <main>
+            <main class="pt-16">
                 {{ $slot }}
             </main>
         </div>
