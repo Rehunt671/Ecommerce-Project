@@ -1,4 +1,4 @@
-<div class="w-full max-w-2xl min-w-[250px]">
+<div class="w-full">
     <div class="relative">
         <input
         class="w-full placeholder:text-slate-400 text-slate-700 text-lg border border-slate-200 rounded-md pl-4 pr-32 py-3 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 

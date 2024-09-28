@@ -21,20 +21,23 @@
                 @include('layouts.navigation')
             </nav>
 
-            @isset($header)
+            <!-- @isset($header)
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
-            @endisset
+            @endisset -->
 
-            <main>
+            <main class="mt-40">
                 {{ $slot }}
             </main>
+
+
             <button id="scrollToTopBtn" class="fixed bottom-20 right-20 hidden bg-pink-500 text-white rounded-full p-3 shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
                 ↑
             </button>
+
             <script>
                 const scrollToTopBtn = document.getElementById("scrollToTopBtn");
 
