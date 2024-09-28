@@ -21,8 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/wishlist', [WishlistController::class, 'getWishlistProducts']);
-    Route::post('/wishlist/add', [WishlistController::class, 'addWishlistProduct'])->name('wishlist.add');
-    Route::post('/wishlist/remove', [WishlistController::class, 'removeWishlistProduct'])->name('wishlist.remove');
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlistProduct'])->name('wishlist.toggle');
 
     Route::get('/cart', [CartController::class, 'getCartProducts']);
     Route::post('/cart/{product}', [CartController::class, 'addCartProduct']);

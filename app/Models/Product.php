@@ -30,7 +30,7 @@ class Product extends Model
 
     public function wishlists()
     {
-        return $this->belongsToMany(Wishlist::class,'wishlists');
+        return $this->belongsToMany(User::class,'wishlists');
     }
 
     public function ratings()

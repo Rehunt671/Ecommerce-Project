@@ -12,6 +12,7 @@ class ProductController extends Controller
 
     public function getByCategory($id)
     {
+    
         $category = ProductCategory::find($id);
         if (!$category) {
             return abort(404, 'Category not found');
@@ -24,8 +25,8 @@ class ProductController extends Controller
         });
     
         $user = auth()->user();
+        $wishlist = [];
         $wishlist = $user ? $user->wishlists->pluck('id')->toArray() : [];
-    
         $this->attachWishlistStatus($products, $wishlist);
     
         return view('product.products', compact('category', 'products'));

@@ -55,21 +55,21 @@ class InitTable extends Migration
             $table->integer('stock');
             $table->string('status');
             $table->string('image_name')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
 
         // Create carts table
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('total_price', 10, 2)->default(0);
         });
 
         // Create cart_items table
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('cart_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('item_price', 10, 2);
         });
@@ -77,8 +77,8 @@ class InitTable extends Migration
         // Create wishlists table
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
 
