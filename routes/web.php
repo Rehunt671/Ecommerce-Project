@@ -20,12 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/wishlist', [WishlistController::class, 'getWishlistProducts']);
+    Route::get('/wishlist', [WishlistController::class, 'getWishlistProducts'])->name('wishlist.index');
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlistProduct'])->name('wishlist.toggle');
+    Route::post('/wishlist/remove', [WishlistController::class, 'removeWishlistProduct'])->name('wishlist.remove');
 
-    Route::get('/cart', [CartController::class, 'getCartProducts']);
-    Route::post('/cart/{product}', [CartController::class, 'addCartProduct']);
-    Route::put('/cart/{product}', [CartController::class, 'updateCartItem']);
+    Route::get('/cart', [CartController::class, 'getCartProducts'])->name('cart.index');;
+    Route::put('/cart/{product}', [CartController::class, 'upsertCartProduct']);
     Route::delete('/cart/{product}', [CartController::class, 'deleteCartItem']);
 
     Route::post('/purchase/{product}', [SalesLogController::class, 'addPurchase']);

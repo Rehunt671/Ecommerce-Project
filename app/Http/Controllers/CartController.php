@@ -17,48 +17,37 @@ class CartController extends Controller
         return response()->json($cartItems);
     }
 
-    public function addCartProduct(Request $request) {
+    public function upsertCartProduct(Request $request) {
         $user = auth()->user();
         $cart = $user->cart;  
-
+    
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'nullable|integer|min:1' // Optional, defaults to 1 for new products
         ]);
     
-        $cartItem = $cart->cartItems()->where('product_id', $validated['product_id'])->first();
+        $product = $cart->cartItems()->where('product_id', $validated['product_id'])->first();
+        $productDetails = Product::find($validated['product_id']); // Get product details to access the price
     
-        if ($cartItem) {
-            $cartItem->update(['quantity' => $validated['quantity']]);
+        if ($product) {
+            // If the item exists, increment the quantity by 1
+            $product->increment('quantity', 1);
+            // Update the total price of the cart
+            $cart->totalPrice += $productDetails->price; // Add product price to total
+            $cart->save(); // Save the cart
+            return response()->json(['message' => 'Cart item quantity updated']);
         } else {
+            // If the item does not exist, create a new cart item with quantity of 1
             $cart->cartItems()->create([
                 'product_id' => $validated['product_id'],
-                'quantity' => $validated['quantity']
+                'quantity' => 1 
             ]);
-        }
-    
-        return response()->json(['message' => 'Product added to cart']);
-    }
-    
-
-    public function updateCartItem(Request $request, $productId) {
-        $user = auth()->user();  
-        $cart = $user->cart;  
-        
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1'
-        ]);
-    
-        $cartItem = $cart->cartItems()->where('product_id', $productId)->first();
-    
-        if ($cartItem) {
-            $cartItem->update(['quantity' => $validated['quantity']]);
-            return response()->json(['message' => 'Cart item updated']);
-        } else {
-            return response()->json(['message' => 'Cart item not found'], 404);
+            // Update the total price of the cart
+            $cart->totalPrice += $productDetails->price; // Add product price to total
+            $cart->save(); // Save the cart
+            return response()->json(['message' => 'Product added to cart']);
         }
     }
-    
     
     public function deleteCartItem($productId) {
         $user = auth()->user();

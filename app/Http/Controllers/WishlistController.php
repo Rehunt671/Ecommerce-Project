@@ -7,17 +7,20 @@ use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-    public function getWishlistProducts() {
+    public function getWishlistProducts()
+    {
         $user = auth()->user();
-        $wishlists = $user->wishlists;
-        return response()->json($wishlists);
+    
+        $products = $user->wishlists()->paginate(20);
+    
+        return view("wishlist.index", compact("products"));
     }
     
     public function toggleWishlistProduct(Request $request) {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'category_id' => 'required|exists:product_categories,id', 
-        ]);
+        // $request->validate([
+        //     'product_id' => 'required|exists:products,id',
+        //     'category_id' => 'required|exists:product_categories,id', 
+        // ]);
     
         $user = auth()->user();
         
@@ -30,6 +33,19 @@ class WishlistController extends Controller
         }
     
         return redirect()->route('products.category', ['id' => $request->category_id])
+                            ->with('success', $message);
+    }
+
+    public function removeWishlistProduct(Request $request) {
+        // $request->validate([
+        //     'product_id' => 'required|exists:products,id',
+        //     'category_id' => 'required|exists:product_categories,id', 
+        // ]);
+    
+        $user = auth()->user();
+        $user->wishlists()->detach($request->product_id);
+        $message = 'Product removed from wishlist successfully!';
+        return redirect()->route('wishlist.index')
                             ->with('success', $message);
     }
 }
