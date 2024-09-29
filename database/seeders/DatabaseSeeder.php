@@ -9,6 +9,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        DB::table('banners')->insert([
+            'name' => 'About Us',
+            'infomation' => 'Information about the company or organization.',
+            'image_name' => 'about_us_banner.jpg',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         // Seed users
         DB::table('users')->insert([
             [

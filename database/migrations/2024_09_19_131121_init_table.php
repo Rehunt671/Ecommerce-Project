@@ -13,6 +13,14 @@ class InitTable extends Migration
      */
     public function up()
     {
+        // Create banners table
+        Schema::create('banners', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('infomation')->nullable();
+            $table->string('image_name')->nullable();
+            $table->timestamps();
+        });
         // Create users table
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -124,6 +132,7 @@ class InitTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('banners'); // Drop before products
         Schema::dropIfExists('cart_items'); // Drop before products
         Schema::dropIfExists('wishlists'); // Drop before products
         Schema::dropIfExists('sales_log');
