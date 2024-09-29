@@ -58,23 +58,14 @@ class InitTable extends Migration
             $table->timestamps();
         });
 
-        // Create carts table
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('total_price', 10, 2)->default(0);
-        });
-
         // Create cart_items table
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->decimal('item_price', 10, 2);
         });
 
-        // Create wishlists table
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -133,13 +124,12 @@ class InitTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('cart_items'); // Drop before products
+        Schema::dropIfExists('wishlists'); // Drop before products
         Schema::dropIfExists('sales_log');
         Schema::dropIfExists('ratings');
         Schema::dropIfExists('promotions');
-        Schema::dropIfExists('wishlists');
-        Schema::dropIfExists('cart_items');
-        Schema::dropIfExists('carts');
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('products'); 
         Schema::dropIfExists('product_categories');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
@@ -147,4 +137,5 @@ class InitTable extends Migration
         Schema::dropIfExists('cache');
         Schema::dropIfExists('cache_locks');
     }
+    
 }

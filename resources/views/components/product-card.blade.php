@@ -10,7 +10,7 @@
         <p class="text-sm text-gray-600">{{ $product->description }}</p>
     </div>
     <div class="product-actions flex justify-between mt-6">
-        <button aria-label="Add to cart">
+        <button aria-label="Add to cartItems">
             <img src="{{ asset('/storage/cart.png') }}" class="w-10 h-auto" alt="Add to Cart" />
         </button>
         <form method="POST" action="{{ route('wishlist.toggle') }}" class="inline toggle-wishlist-form">

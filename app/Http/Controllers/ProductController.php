@@ -17,10 +17,10 @@ class ProductController extends Controller
         if (!$category) {
             return abort(404, 'Category not found');
         }
-        $query = request()->input('query');
+        $query = request()->input('name');
 
         $products = Cache::remember("products_category_{$id}_query_" . ($query ?: 'none'), 60, function() use ($id, $query) {
-            $productQuery = Product::with('cartItems.cart.user')->where('category', $id);
+            $productQuery = Product::where('category', $id);
             
             if ($query) {
                 $productQuery->whereRaw('LOWER(name) LIKE ?', ["%{$query}%"]);
@@ -32,8 +32,8 @@ class ProductController extends Controller
         $user = auth()->user();
         $wishlist = $user ? $user->wishlists->pluck('id')->toArray() : [];
         $this->attachWishlistStatus($products, $wishlist);
-    
-        return view('product.products', compact('category', 'products'));
+        
+        return view('product.index', compact('category', 'products'));
     }
     
     /**

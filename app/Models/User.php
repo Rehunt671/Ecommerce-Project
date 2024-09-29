@@ -27,9 +27,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function cart()
+    public function cartItems()
     {
-        return $this->hasOne(Cart::class);
+        return $this->belongsToMany(Product::class,'cartItems');
     }
 
     public function wishlists()

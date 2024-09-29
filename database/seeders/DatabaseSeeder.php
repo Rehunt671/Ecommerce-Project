@@ -92,19 +92,12 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // Seed carts
-        DB::table('carts')->insert([
-            ['user_id' => 1, 'total_price' => 0],
-            ['user_id' => 2, 'total_price' => 0],
-        ]);
-
-        // Seed cart_items
         DB::table('cart_items')->insert([
-            ['cart_id' => 1, 'product_id' => 1, 'quantity' => 1, 'item_price' => 49.99],
-            ['cart_id' => 1, 'product_id' => 3, 'quantity' => 2, 'item_price' => 12.99],
-            ['cart_id' => 2, 'product_id' => 2, 'quantity' => 1, 'item_price' => 39.99],
+            ['user_id' => 1, 'product_id' => 1, 'quantity' => 1],
+            ['user_id' => 1, 'product_id' => 3, 'quantity' => 2],
+            ['user_id' => 2, 'product_id' => 2, 'quantity' => 1],
         ]);
-
+        
         // Seed wishlists
         DB::table('wishlists')->insert([
             ['user_id' => 1, 'product_id' => 2],

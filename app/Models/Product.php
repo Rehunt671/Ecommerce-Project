@@ -38,9 +38,9 @@ class Product extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function cartItems()
+    public function users()
     {
-        return $this->hasMany(CartItem::class);
+        return $this->belongsToMany(User::class,'cartItems');
     }
 
     public function salesLogs()
