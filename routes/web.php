@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/products/{product}/reviews', [RatingController::class, 'getProductReviews']);
     Route::post('/products/{product}/reviews', [RatingController::class, 'addProductReview']);
+
+    Route::get('/purchase-history', [SalesLogController::class, 'getPurchaseHistory'])->name('purchase-history.current');
+    
 });
 
 require __DIR__.'/auth.php';
