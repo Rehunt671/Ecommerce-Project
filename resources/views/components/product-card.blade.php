@@ -10,10 +10,15 @@
         <p class="text-sm text-gray-600">{{ $product->description }}</p>
     </div>
     <div class="product-actions flex justify-between mt-6">
-        <button aria-label="Add to cartItems">
-            <img src="{{ asset('/storage/cart.png') }}" class="w-10 h-auto" alt="Add to Cart" />
-        </button>
-        <form method="POST" action="{{ route('wishlist.toggle') }}" class="inline toggle-wishlist-form">
+        <form method="POST" action="{{ route('cart.upsert') }}">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+            <button aria-label="Add to cartItems">
+                <img src="{{ asset('/storage/cart.png') }}" class="w-10 h-auto" alt="Add to Cart" />
+            </button>
+        </form>
+        <form method="POST" action="{{ route('wishlist.toggle') }}">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
             <input type="hidden" name="category_id" value="{{ $product->category }}">
@@ -26,3 +31,5 @@
         </form>
     </div>
 </div>
+
+

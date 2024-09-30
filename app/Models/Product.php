@@ -40,7 +40,7 @@ class Product extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class,'cartItems');
+        return $this->belongsToMany(User::class, 'cart_items');
     }
 
     public function salesLogs()

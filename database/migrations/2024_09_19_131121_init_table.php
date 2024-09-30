@@ -72,6 +72,7 @@ class InitTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
+            $table->timestamps();
         });
 
         Schema::create('wishlists', function (Blueprint $table) {

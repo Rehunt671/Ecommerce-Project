@@ -24,9 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlistProduct'])->name('wishlist.toggle');
     Route::post('/wishlist/remove', [WishlistController::class, 'removeWishlistProduct'])->name('wishlist.remove');
 
-    Route::get('/cart', [CartController::class, 'getCartItems'])->name('cart.index');;
-    Route::put('/cart/{product}', [CartController::class, 'upsertCartItem']);
-    Route::delete('/cart/{product}', [CartController::class, 'deleteCartItem']);
+    Route::get('/cart', [CartController::class, 'getCartProducts'])->name('cart.index');;
+    Route::post('/cart', [CartController::class, 'upsertCartProduct'])->name('cart.upsert');
+    Route::delete('/cart', [CartController::class, 'deleteCartItem'])->name('cart.delete');;
 
     Route::post('/purchase/{product}', [SalesLogController::class, 'addPurchase']);
 
