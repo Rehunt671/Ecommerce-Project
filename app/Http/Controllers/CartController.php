@@ -60,7 +60,7 @@ class CartController extends Controller
 
         if ($cartProduct) {
             $cartProduct->delete();
-            return response()->json(['message' => 'Cart item deleted successfully']);
+            return redirect()->back();
         }
 
         return response()->json(['message' => 'Cart item not found'], 404);
