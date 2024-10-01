@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController; 
-use App\Http\Controllers\SalesLogController; 
+use App\Http\Controllers\OrderController; 
 use App\Http\Controllers\RatingController; 
 use Illuminate\Support\Facades\Route;
 
@@ -25,16 +25,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlistProduct'])->name('wishlist.toggle');
     Route::post('/wishlist/remove', [WishlistController::class, 'removeWishlistProduct'])->name('wishlist.remove');
 
-    Route::get('/cart', [CartController::class, 'getCartProducts'])->name('cart.index');;
+    Route::get('/cart', [CartController::class, 'getCartProducts'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'upsertCartProduct'])->name('cart.upsert');
-    Route::delete('/cart', [CartController::class, 'deleteCartItem'])->name('cart.delete');;
+    Route::delete('/cart', [CartController::class, 'deleteCartItem'])->name('cart.delete');
 
-    Route::post('/purchase/{product}', [SalesLogController::class, 'addPurchase']);
+    Route::post('/order', [OrderController::class, 'addOrder'])->name('order.add');
+    Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
     Route::get('/products/{product}/reviews', [RatingController::class, 'getProductReviews']);
     Route::post('/products/{product}/reviews', [RatingController::class, 'addProductReview']);
 
-    Route::get('/purchase-history', [SalesLogController::class, 'getPurchaseHistory'])->name('purchase-history.current');
     
 });
 

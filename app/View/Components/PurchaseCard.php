@@ -3,26 +3,20 @@
 namespace App\View\Components;
 
 use App\Models\Product;
-use App\Models\SalesLog;
 use Illuminate\View\Component;
 
 class PurchaseCard extends Component
 {
-    public $purchase;
-    public $productName;
+    public $product;
 
-    public function __construct(SalesLog $purchase)
+    public function __construct(Order $order)
     {
-        $this->purchase = $purchase;
-
-        // Get the product name through the relationship
-        $this->productName = $purchase->product->name ?? 'Product not found'; // Fallback if product is null
+        $this->product = $product; 
     }
+
 
     public function render()
     {
-        return view('components.purchase-card', [
-            'productName' => $this->productName,
-        ]);
+        return view('components.purchase-card');
     }
 }

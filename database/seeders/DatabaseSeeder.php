@@ -124,10 +124,12 @@ class DatabaseSeeder extends Seeder
             ['user_id' => 2, 'product_id' => 2, 'rating' => 4, 'review_text' => 'Great quality cat food.', 'created_at' => now()],
         ]);
 
-        // Seed sales_log
-        DB::table('sales_log')->insert([
-            ['product_id' => 1, 'quantity_sold' => 10, 'total_price_sold' => 499.90, 'sale_date' => now()],
-            ['product_id' => 2, 'quantity_sold' => 5, 'total_price_sold' => 199.95, 'sale_date' => now()],
+        // Seed orders
+        DB::table('orders')->insert([
+            ['user_id' => 1,'product_id' => 1, 'quantity_sold' => 10, 'total_price_sold' => 499.90, 'sale_date' => now()],
+            ['user_id' => 1,'product_id' => 1, 'quantity_sold' => 3, 'total_price_sold' => 250.0, 'sale_date' => null],
+            ['user_id' => 2,'product_id' => 2, 'quantity_sold' => 5, 'total_price_sold' => 199.95, 'sale_date' => now()],
+            ['user_id' => 2,'product_id' => 2, 'quantity_sold' => 2, 'total_price_sold' => 800.00, 'sale_date' => null],
         ]);
     }
 }

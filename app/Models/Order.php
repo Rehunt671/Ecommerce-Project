@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SalesLog extends Model
+class Order extends Model
 {
-    protected $table = 'sales_log';
+    use HasFactory;
+
+    protected $table = 'orders';
 
     protected $fillable = [
         'product_id',
@@ -16,6 +19,7 @@ class SalesLog extends Model
         'sale_date',
     ];
 
+    
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -25,5 +29,4 @@ class SalesLog extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
 }

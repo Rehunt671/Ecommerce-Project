@@ -28,7 +28,7 @@ class ProductController extends Controller
 
         $user = auth()->user();
         $wishlists = $user ? $user->wishlists->pluck('id')->toArray() : [];
-        $cartItems = $user ? $user->cartItems->pluck('id', 'quantity')->toArray() : [];
+        $cartItems = $user ? $user->cartItems->pluck('quantity', 'product_id')->toArray() : [];
 
         $this->attachWishlistInfo($products, $wishlists);
         $this->attachCartItemInfo($products, $cartItems);
@@ -62,7 +62,7 @@ class ProductController extends Controller
      * @return void
      */
     protected function attachWishlistInfo($products, array $wishlists)
-    {
+    { 
         foreach ($products as $product) {
             $product->isWishlist = in_array($product->id, $wishlists);
         }
@@ -76,9 +76,10 @@ class ProductController extends Controller
      * @return void
      */
     protected function attachCartItemInfo($products, array $cartItems)
-    {
+    {  
         foreach ($products as $product) {
             $product->cart_quantity = $cartItems[$product->id] ?? 0;
         }
+        
     }
 }

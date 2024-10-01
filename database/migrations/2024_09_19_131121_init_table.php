@@ -21,6 +21,7 @@ class InitTable extends Migration
             $table->string('image_name')->nullable();
             $table->timestamps();
         });
+        
         // Create users table
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -102,13 +103,14 @@ class InitTable extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        // Create sales_log table
-        Schema::create('sales_log', function (Blueprint $table) {
+        // Create orders table
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->integer('quantity_sold');
             $table->decimal('total_price_sold', 10, 2);
-            $table->timestamp('sale_date')->useCurrent();
+            $table->timestamp('sale_date')->useCurrent()->nullable();
         });
 
         Schema::create('cache', function (Blueprint $table) {
@@ -122,8 +124,6 @@ class InitTable extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
-
-
     }
 
     /**
@@ -136,7 +136,7 @@ class InitTable extends Migration
         Schema::dropIfExists('banners'); // Drop before products
         Schema::dropIfExists('cart_items'); // Drop before products
         Schema::dropIfExists('wishlists'); // Drop before products
-        Schema::dropIfExists('sales_log');
+        Schema::dropIfExists('orders');
         Schema::dropIfExists('ratings');
         Schema::dropIfExists('promotions');
         Schema::dropIfExists('products'); 
@@ -147,5 +147,4 @@ class InitTable extends Migration
         Schema::dropIfExists('cache');
         Schema::dropIfExists('cache_locks');
     }
-    
 }
