@@ -43,8 +43,4 @@ class Product extends Model
         return $this->belongsToMany(User::class, 'cart_items');
     }
 
-    public function salesLogs()
-    {
-        return $this->hasMany(SalesLog::class);
-    }
 }

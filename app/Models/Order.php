@@ -9,24 +9,28 @@ class Order extends Model
 {
     use HasFactory;
 
+    // Define the table name (optional if it follows Laravel's naming convention)
     protected $table = 'orders';
 
+    // Fillable attributes for mass assignment
     protected $fillable = [
-        'product_id',
         'user_id',
-        'quantity_sold',
-        'total_price_sold',
-        'sale_date',
+        'purchase_date',
     ];
 
-    
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
+    /**
+     * An order belongs to a user.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * An order can have many order items.
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

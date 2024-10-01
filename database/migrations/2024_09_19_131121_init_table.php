@@ -106,11 +106,19 @@ class InitTable extends Migration
         // Create orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('product_id')->constrained();
-            $table->integer('quantity_sold');
-            $table->decimal('total_price_sold', 10, 2);
-            $table->timestamp('sale_date')->useCurrent()->nullable();
+            $table->foreignId('user_id')->constrained(); // Links to users table
+            $table->timestamp('purchase_date')->useCurrent()->nullable(); // Date of the sale
+            $table->timestamps();
+        });
+
+        // Create order_items table
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Links to orders table
+            $table->foreignId('product_id')->constrained(); // Links to products table
+            $table->integer('quantity_sold'); // Quantity of the product sold in this order
+            $table->decimal('price_per_item', 10, 2); // Price of a single product unit at the time of sale
+            $table->timestamps();
         });
 
         Schema::create('cache', function (Blueprint $table) {

@@ -1,26 +1,36 @@
 <x-app-layout>
-    <section class="my-10 text-center">
-        <h1>Purchase History</h1>
-        <div class="flex justify-center items-center bg-gray-200 rounded-full mx-auto w-1/2">
-            <input type="text" placeholder="Search" class="p-2 w-full outline-none rounded-l-full bg-transparent" />
-            <button class="p-2">
-                <img src="{{ asset('/storage/search-icon.png') }}" alt="Search" />
-            </button>
-        </div>
-    </section>
+    <div>
+        <h3>Purchase History</h3>
 
-    <section>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 lg:gap-10 justify-items-center">
-            @foreach($products as $product)
+        @if ($orders->isEmpty()) <!-- Check if orders is empty -->
+            <p>No purchase history found.</p>
+        @else
+            @foreach ($orders as $order) <!-- Loop through each order -->
                 <div>
-                    <x-purchase-card :product="$product" />
+                    <h4>Order ID: {{ $order }}</h4>
+                    <p>Purchase Date: {{ \Carbon\Carbon::parse($order->purchase_date)->format('d M Y, H:i') }}</p>
+
+                    <h5>Order Items:</h5>
+                    @if (!empty($order->order_items) && count($order->order_items) > 0) 
+                        <ul>
+                            @foreach ($order->order_items as $orderItem)
+                                <li>
+                                    Product Name: {{ $orderItem->product->name }}<br>
+                                    Quantity Sold: {{ $orderItem->quantity_sold }}<br>
+                                    Price per Item: ${{ $orderItem->price_per_item }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No items in this order.</p> <!-- Message for orders without items -->
+                    @endif
                 </div>
             @endforeach
-        </div>  
 
-        <!-- Pagination Links -->
-        <div class="mt-4">
-            {{ $purchaseHistory->links() }} 
-        </div>
-    </section>
+            <!-- Pagination links -->
+            {{ $orders->links() }} <!-- This will display pagination links -->
+        @endif
+    </div>
 </x-app-layout>
+
+

@@ -124,12 +124,21 @@ class DatabaseSeeder extends Seeder
             ['user_id' => 2, 'product_id' => 2, 'rating' => 4, 'review_text' => 'Great quality cat food.', 'created_at' => now()],
         ]);
 
-        // Seed orders
+        // Seed orders table
         DB::table('orders')->insert([
-            ['user_id' => 1,'product_id' => 1, 'quantity_sold' => 10, 'total_price_sold' => 499.90, 'sale_date' => now()],
-            ['user_id' => 1,'product_id' => 1, 'quantity_sold' => 3, 'total_price_sold' => 250.0, 'sale_date' => null],
-            ['user_id' => 2,'product_id' => 2, 'quantity_sold' => 5, 'total_price_sold' => 199.95, 'sale_date' => now()],
-            ['user_id' => 2,'product_id' => 2, 'quantity_sold' => 2, 'total_price_sold' => 800.00, 'sale_date' => null],
+            ['user_id' => 1, 'purchase_date' => now()],
+            ['user_id' => 1, 'purchase_date' => null],
+            ['user_id' => 2, 'purchase_date' => now()],
+            ['user_id' => 2, 'purchase_date' => null],
         ]);
+
+        // Seed order_items table
+        DB::table('order_items')->insert([
+            ['order_id' => 1, 'product_id' => 1, 'quantity_sold' => 10, 'price_per_item' => 49.99],
+            ['order_id' => 2, 'product_id' => 1, 'quantity_sold' => 3, 'price_per_item' => 83.33],
+            ['order_id' => 3, 'product_id' => 2, 'quantity_sold' => 5, 'price_per_item' => 39.99],
+            ['order_id' => 4, 'product_id' => 2, 'quantity_sold' => 2, 'price_per_item' => 400.00],
+        ]);
+
     }
 }

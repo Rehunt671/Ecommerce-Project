@@ -1,22 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Order; 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class PurchaseHistoryController extends Controller
 {
-    public function getPurchaseHistory()    
+    public function getPurchaseHistory()
     {
         $user = auth()->user();
-
-        // ดึงข้อมูลการซื้อสินค้าของผู้ใช้ที่ล็อกอิน
-        $products = Order::where('user_id', $user->id)
-            ->whereNotNull('sale_date')
+        
+        $orders = $user->orders()
+            ->whereNotNull('purchase_date')  
+            ->with(['orderItems.product'])
             ->paginate(20);
-
-        // ส่งข้อมูลไปยัง view หรือ JSON response
-        return view('purchase.history', compact('products'));
+    
+        // Log the orders
+        Log::info('User Purchase History:', [
+            'orders' => $orders->toArray() // Convert the orders collection to an array for logging
+        ]);
+    
+        return view('purchase.history', compact('orders'));
     }
+    
+    
 }

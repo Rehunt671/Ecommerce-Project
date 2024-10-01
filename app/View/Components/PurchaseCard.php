@@ -2,18 +2,17 @@
 
 namespace App\View\Components;
 
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\View\Component;
 
 class PurchaseCard extends Component
 {
-    public $product;
+    public $order;
 
     public function __construct(Order $order)
     {
-        $this->product = $product; 
+        $this->order = $order; 
     }
-
 
     public function render()
     {
