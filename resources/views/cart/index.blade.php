@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-bold mb-4">Shopping Cart</h1>
 
-        @if ($cartItems->isEmpty())
+        @if ($cartProducts->isEmpty())
             <p class="text-gray-600">Your cart is empty.</p>
         @else
             <div class="bg-white shadow-md rounded-lg p-6">
@@ -17,20 +17,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cartItems as $item)
+                        @foreach ($cartProducts as $item)
                             <tr>
-                                <td class="py-3 px-4 border-b">{{ $item->product->name }}</td>
+                            <td class="py-3 px-4 border-b">{{ $item->name }}</td>
                                 <td class="py-3 px-4 border-b">
-                                    <input type="number" value="{{ $item->quantity }}" min="1" class="border rounded-md w-16 text-center">
+                                    <form action="{{ route('cart.upsert') }}" method="POST" class="inline">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $item->pivot->product_id }}">
+                                        <input type="hidden" name="operation" value="minus">
+                                        <button type="submit" class="text-gray-500 hover:text-gray-700">-</button>
+                                    </form>
+                                    {{ $item->pivot->quantity }} <!-- แสดงจำนวนสินค้า -->
+                                    <form action="{{ route('cart.upsert') }}" method="POST" class="inline">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $item->pivot->product_id }}">
+                                        <input type="hidden" name="operation" value="add">
+                                        <button type="submit" class="text-gray-500 hover:text-gray-700">+</button>
+                                    </form>
                                 </td>
-                                <td class="py-3 px-4 border-b">${{ number_format($item->product->price, 2) }}</td>
-                                <td class="py-3 px-4 border-b">${{ number_format($item->quantity * $item->product->price, 2) }}</td>
+                                <td class="py-3 px-4 border-b">${{ number_format($item->price, 2) }}</td>
+                                <td class="py-3 px-4 border-b">${{ number_format($item->pivot->quantity * $item->price, 2) }}</td>
                                 <td class="py-3 px-4 border-b">
-                                    <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="inline">
+                                <form action="{{ route('cart.delete', $item->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-500 hover:text-red-700">Remove</button>
-                                    </form>
+                                </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -38,10 +50,11 @@
                 </table>
 
                 <div class="mt-4 flex justify-between">
-                    <h2 class="text-lg font-semibold">Subtotal: ${{ number_format($cartItems->sum(fn($item) => $item->quantity * $item->product->price), 2) }}</h2>
-                    <a href="{{ route('checkout') }}" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">Proceed to Checkout</a>
+                    <h2 class="text-lg font-semibold">Subtotal: ${{ number_format($cartProducts->sum(fn($item) => $item->pivot->quantity * $item->price), 2) }}</h2>
+                    
                 </div>
             </div>
         @endif
+
     </div>
 </x-app-layout>

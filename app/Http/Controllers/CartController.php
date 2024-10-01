@@ -13,7 +13,8 @@ class CartController extends Controller
         
         $cartProducts = $user->products()->withPivot('quantity')->get();
         
-        return response()->json($cartProducts);
+        // return response()->json($cartProducts);
+        return view("cart.index", compact("cartProducts"));
     }
 
     public function upsertCartProduct(Request $request) {
@@ -53,7 +54,7 @@ class CartController extends Controller
     public function deleteCartItem($productId) {
         $user = auth()->user();
 
-        $cartProduct = $user->cartProduct()
+        $cartProduct = $user->cartItems()
             ->where('product_id', $productId)
             ->first();
 
