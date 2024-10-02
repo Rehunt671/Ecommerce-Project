@@ -19,7 +19,7 @@ class OrderController extends Controller
     
         $order = Order::create([
             'user_id' => $user->id,
-            'purchase_date' => now(),
+            'purchase_date' => null,
         ]);
     
         foreach ($cartItems as $cartItem) {
@@ -35,7 +35,7 @@ class OrderController extends Controller
     
         // return response()->json($order);
         return redirect()->route('purchase.index', ['orderId' => $order->id])
-                     ->with('success', 'Order successfully placed!');  // this should pass order variable too
+                     ->with('success', 'Order successfully placed!');
     }
     
 }

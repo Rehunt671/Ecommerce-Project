@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PurchaseHistoryController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -30,7 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{productId}', [CartController::class, 'deleteCartItem'])->name('cart.delete');
 
     Route::post('/order', [OrderController::class, 'addOrder'])->name('order.add');
-    Route::get('/purchase/{orderId}', [PurchaseHistoryController::class, 'getPurchaseByOrder'])->name('purchase.index');
+    Route::get('/purchase/{orderId}', [PurchaseController::class, 'getPurchaseByOrder'])->name('purchase.index');
+    Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
     Route::get('/products/{product}/reviews', [RatingController::class, 'getProductReviews']);
