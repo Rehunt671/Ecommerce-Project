@@ -25,14 +25,14 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $item->pivot->product_id }}">
                                         <input type="hidden" name="operation" value="minus">
-                                        <button type="submit" class="text-gray-500 hover:text-gray-700">-</button>
+                                        <button type="submit" class="text-gray-500 hover:text-gray-700 py-3 pr-6 text-2xl">-</button>
                                     </form>
                                     {{ $item->pivot->quantity }} <!-- แสดงจำนวนสินค้า -->
                                     <form action="{{ route('cart.upsert') }}" method="POST" class="inline">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $item->pivot->product_id }}">
                                         <input type="hidden" name="operation" value="add">
-                                        <button type="submit" class="text-gray-500 hover:text-gray-700">+</button>
+                                        <button type="submit" class="text-gray-500 hover:text-gray-700 py-3 px-6 text-2xl">+</button>
                                     </form>
                                 </td>
                                 <td class="py-3 px-4 border-b">${{ number_format($item->price, 2) }}</td>
@@ -51,7 +51,10 @@
 
                 <div class="mt-4 flex justify-between">
                     <h2 class="text-lg font-semibold">Subtotal: ${{ number_format($cartProducts->sum(fn($item) => $item->pivot->quantity * $item->price), 2) }}</h2>
-                    
+                    <form method="POST" action="{{ route('order.add') }}">
+                    @csrf
+                    <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">Proceed to Checkout</button>
+                    </form>
                 </div>
             </div>
         @endif
