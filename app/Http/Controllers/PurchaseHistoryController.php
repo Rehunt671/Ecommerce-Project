@@ -13,6 +13,7 @@ class PurchaseHistoryController extends Controller
         $orders = $user->orders()
             ->whereNotNull('purchase_date')  
             ->with(['orderItems.product'])
+            ->orderByDesc('purchase_date')
             ->paginate(20);
     
         // Log the orders
