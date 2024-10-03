@@ -36,7 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
     Route::get('/products/{product}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
-    // Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating']);
+    Route::get('/products/{product}/ratings/create', [RatingController::class, 'create'])->name('rating.create');
+    Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
 
     
 });
