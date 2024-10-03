@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
-    Route::get('/products/{product}/reviews', [RatingController::class, 'getProductReviews']);
-    Route::post('/products/{product}/reviews', [RatingController::class, 'addProductReview']);
+    Route::get('/products/{product}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
+    // Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating']);
 
     
 });

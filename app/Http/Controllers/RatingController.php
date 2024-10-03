@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    public function getProductRatings($productId) {
-        $ratings = Rating::where('product_id', $productId)->get();
-        return response()->json($ratings);
+    public function getProductRating($productId) {
+        $ratings = Rating::with('user')->where('product_id', $productId)->get();
+        // Passing the $ratings variable to the view
+        return view('rating.index', compact('ratings'));
     }
-
+    
     public function addProductRating(Request $request, $productId) {
         $user = auth()->user();
         

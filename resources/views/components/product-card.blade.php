@@ -1,4 +1,4 @@
-<div class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl">
+<a href="{{ route('rating.index', ['product' => $product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl">
     <div class="relative h-64 rounded-md overflow-hidden">
         <img src="{{ asset('storage/' . $product->image_name) }}" alt="{{ $product->name }}" class="w-full h-full object-cover" />
         <h3 class="absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-75 text-white text-center p-2">
@@ -41,6 +41,6 @@
             </button>
         </form>
     </div>
-</div>
+</a>
 
 
