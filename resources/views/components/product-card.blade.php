@@ -23,13 +23,12 @@
                 </button>
             </form>
         </div>
+        
         <!-- Buy Immediately Button -->
-        <form method="POST" action="{{ route('order.add') }}">
-        @csrf
-            <button type="button" id="buyButton" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200 focus:outline-none">
+        <button type="button" id="buyButton" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none"">
             Buy
-            </button>
-        </form>
+        </button>
+
         <form method="POST" action="{{ route('wishlist.toggle') }}">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -43,4 +42,41 @@
     </div>
 </a>
 
+<!-- Modal -->
+<div id="quantityModal" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-lg font-bold mb-4">Select Quantity</h2>
+        <input type="number" id="quantity" value="1" min="1" class="border rounded-md px-2 py-1 w-full">
+        <div class="mt-4 flex justify-end">
+            <button id="submitOrder" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200 focus:outline-none">
+                Submit
+            </button>
+            <button id="closeModal" class="ml-2 bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200 focus:outline-none">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
 
+<!-- Buy Form (hidden) -->
+<form id="buyForm" method="POST" action="{{ route('order.add') }}" style="display: none;">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}"> 
+    <input type="hidden" name="quantity" id="quantityInput" value="1" min="1">
+</form>
+
+<script>
+document.getElementById('buyButton').addEventListener('click', function() {
+    document.getElementById('quantityModal').classList.remove('hidden');
+});
+
+document.getElementById('closeModal').addEventListener('click', function() {
+    document.getElementById('quantityModal').classList.add('hidden');
+});
+
+document.getElementById('submitOrder').addEventListener('click', function() {
+    const quantity = document.getElementById('quantity').value;
+    document.getElementById('quantityInput').value = quantity; // set the quantity in the form
+    document.getElementById('buyForm').submit(); // submit the form
+});
+</script>
