@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
     Route::get('/products/{product}/ratings/create', [RatingController::class, 'create'])->name('rating.create');
     Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
-
+  
     
 });
 
