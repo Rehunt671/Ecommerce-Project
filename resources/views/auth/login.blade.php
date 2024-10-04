@@ -1,47 +1,34 @@
-<x-guest-layout>
-    <!-- Session Status -->
+<x-app-layout>
     <x-auth-session-status class="mb-4" :status="session('status')" />
+    <!-- Header: Mai Ghog Phung -->
+    <!-- Login Form -->
+    <div class="flex justify-center items-center mt-10">
+        <div class="bg-white bg-opacity-90 rounded-lg p-10 shadow-lg w-full max-w-4xl">
+            <h1>
+                Mai Ghao Phung
+            </h1>
+            <form method="POST" action="{{ route('login') }}" class="space-y-4 flex flex-col lg:space-y-4" enctype="multipart/form-data">
+                <!-- Add CSRF token -->
+                @csrf
+          <!-- Email and Password Inputs -->
+                <div class="flex justify-center items-center">
+                    <div class="w-full max-w-lg space-y-10"> <!-- Set a max-width for smaller input fields -->
+                        <div>
+                            <input type="email" name="email" placeholder="E-mail" class="w-full border-2 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        </div>
+                        <div class="mt-5"> <!-- Add margin-top to create space -->
+                            <input type="password" name="password" placeholder="Password" class="w-full border-2 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        </div>
+                    </div>
+                </div>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <!-- Login Button (Centered below the form inputs) -->
+                <div class="flex justify-center mt-10">
+                    <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg font-bold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Login
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</x-app-layout>

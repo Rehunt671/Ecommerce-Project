@@ -86,10 +86,10 @@
           </ul>
           </div>
             @else
-                <a href="{{ route('login') }}" class="text-xl font-semibold text-gray-800 hover:text-blue-700">LOGIN</a>
+                <a href="{{ route('login') }}" class="text-xl font-semibold mr-4 text-gray-800 hover:text-blue-700">LOGIN</a>
                 <span>|</span>
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="text-xl font-semibold text-gray-800 hover:text-blue-700">SIGNUP</a>
+                    <a href="{{ route('register') }}" class="text-xl font-semibold ml-4 text-gray-800 hover:text-blue-700">SIGNUP</a>
                 @endif
             @endauth
         @endif
