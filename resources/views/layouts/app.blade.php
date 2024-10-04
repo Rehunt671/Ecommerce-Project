@@ -12,6 +12,17 @@
         <link href='https://fonts.googleapis.com/css?family=Rubik Bubbles' rel='stylesheet'>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- from node_modules -->
+        <script
+        type="module"
+        src="node_modules/@material-tailwind/html@latest/scripts/popover.js"
+        ></script>
+        
+        <!-- from cdn -->
+        <script
+        type="module"
+        src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"
+        ></script>
 
     </head>
     <body class="font-sans antialiased">
