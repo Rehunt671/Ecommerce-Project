@@ -20,7 +20,7 @@ class ProductController extends Controller
         $category = ProductCategory::findOrFail($id);  // Simplified error handling
 
         $query = request()->input('name');
-        $cacheKey = "products_category_{$id}_query_" . ($query ?: 'none');
+        $cacheKey = "products_category_{$id}";
 
         $products = Cache::remember($cacheKey, 60, function () use ($id, $query) {
             return $this->fetchProducts($id, $query);

@@ -1,16 +1,16 @@
 <x-app-layout>
 <h5>Welcome Everyone</h5>  <!-- Added margin-bottom -->
-    <div class="w-1/2 p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl mb-6 px-6 mx-auto flex flex-col items-center text-center">
+    <div class="w-1/2 p-4 bg-white opacity-90 rounded-xl shadow-lg hover:shadow-2xl mb-6 px-6 mx-auto flex flex-col items-center text-center">
         <img src="{{ asset('/storage/logo.png') }}" class="img-fluid mb-3" alt="logo" />
         <p>สวัสดีครับยินดีต้อนรับสู่ร้านไม้เกาพุง ร้านขายของเกี่ยวกับสัตว์เลี้ยงที่ดีที่สุดเพื่อสัตว์เลี้ยงที่น่ารักของคุณ</p>
     </div>
     <!-- พี่โน่ -->
     <h5>Member's Info</h5>
-    <div class="flex w-1/2 p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl mb-6 mx-auto">
+    <div class="flex w-1/2 p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl mb-6 mx-auto ">
     <div class="flex-none w-1/3">
         <img src="{{ asset('/storage/ceo.jpg') }}" alt="picture" style="width:100%; height: 250px; object-fit: cover; border-radius: 0.5rem;">
     </div>
-    <div class="flex-1 p-6 text-left">
+    <div class="flex-1 p-6 text-left ">
         <h4><b>Name : Thanawin Saithong</b></h4>
         <p>ID : 640610304</p>
         <p>Job Position : CEO</p>

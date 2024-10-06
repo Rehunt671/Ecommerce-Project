@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="container mx-auto px-4 py-6">
-        <h1 class="text-2xl font-bold mb-4">Shopping Cart</h1>
 
+    <h1>Shopping Cart</h1>
+    <div class="container mx-auto px-4 py-6">
         @if ($cartProducts->isEmpty())
             <p class="text-black-600">Your cart is empty.</p>
         @else
@@ -53,7 +53,7 @@
                     <h2 class="text-lg font-semibold">Subtotal: ${{ number_format($cartProducts->sum(fn($item) => $item->pivot->quantity * $item->price), 2) }}</h2>
                     <form method="POST" action="{{ route('order.add') }}">
                     @csrf
-                    <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">Proceed to Checkout</button>
+                    <button type="submit" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none">Proceed to Checkout</button>
                     </form>
                 </div>
             </div>

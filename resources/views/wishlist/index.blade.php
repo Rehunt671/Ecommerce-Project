@@ -1,12 +1,6 @@
 <x-app-layout>
-    <section class="my-10 text-center">
+    <section>
         <h1>WISH LIST</h1>
-        <div class="flex justify-center items-center bg-gray-200 rounded-full mx-auto w-1/2">
-            <input type="text" placeholder="Search" class="p-2 w-full outline-none rounded-l-full bg-transparent" />
-            <button class="p-2">
-                <img src="{{ asset('/storage/search-icon.png') }}" alt="Search" />
-            </button>
-        </div>
     </section>
 
     <section>

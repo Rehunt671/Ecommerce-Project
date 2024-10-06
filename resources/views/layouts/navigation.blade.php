@@ -34,10 +34,10 @@
           <a class="px-4 py-2 mt-2 text-xl font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="/purchase-history">PURCHASE HISTORY</a>
           <div>
           <img
-            alt="tania andrew"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
-            class="relative inline-block h-10 w-10 cursor-pointer rounded-full object-cover object-center"
-            data-popover-target="profile-menu"
+              alt="{{ Auth::user()->name }}" 
+              src="{{ asset('/storage/' . Auth::user()->image_name) }}" 
+              class="relative inline-block h-10 w-10 cursor-pointer rounded-full object-cover object-center"
+              data-popover-target="profile-menu"
           />
           <ul
             role="menu"
@@ -69,11 +69,24 @@
                 Edit Profile
               </p>
             </li>
-            <hr class="my-2 border-slate-200" role="menuitem" />
             <li
               role="menuitem"
               class="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+              </svg>
+          
+              <p class="text-slate-800 font-medium ml-2">
+                Help
+              </p>
+            </li>
+            <hr class="my-2 border-slate-200" role="menuitem" />
+            <li
+              role="menuitem"
+              class="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+              onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+              >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
                 <path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z" clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M19 10a.75.75 0 0 0-.75-.75H8.704l1.048-.943a.75.75 0 1 0-1.004-1.114l-2.5 2.25a.75.75 0 0 0 0 1.114l2.5 2.25a.75.75 0 1 0 1.004-1.114l-1.048-.943h9.546A.75.75 0 0 0 19 10Z" clip-rule="evenodd" />
@@ -82,8 +95,12 @@
               <p class="text-slate-800 font-medium ml-2">
                 Sign Out
               </p>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+              </form>
             </li>
           </ul>
+
           </div>
             @else
                 <a href="{{ route('login') }}" class="text-xl font-semibold mr-4 text-gray-800 hover:text-blue-700">LOGIN</a>

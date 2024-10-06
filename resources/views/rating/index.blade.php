@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h1 class="text-5xl font-bold mb-4">Ratings</h1>
+    <h1 >Ratings</h1>
 
     @if($ratings->isEmpty())
         <p class="text-gray-600 text-center">No ratings available for this product.</p>

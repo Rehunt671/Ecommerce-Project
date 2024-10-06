@@ -14,7 +14,6 @@ class Rating extends Model
         'product_id',
         'rating',
         'review_text',
-        'created_at',
     ];
 
     public function user()

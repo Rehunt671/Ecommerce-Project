@@ -1,6 +1,6 @@
 <x-app-layout>
     <div>
-        <h1 class="text-4xl font-semibold mb-4">Purchase History</h1>
+        <h1 >Purchase History</h1>
 
         @if ($orders->isEmpty())
             <p>No purchase history found.</p>

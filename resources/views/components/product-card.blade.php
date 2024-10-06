@@ -25,7 +25,7 @@
         </div>
         
         <!-- Buy Immediately Button -->
-        <button type="button" id="buyButton" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none"">
+        <button type="button" id="buyButton" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none">
             Buy
         </button>
 
