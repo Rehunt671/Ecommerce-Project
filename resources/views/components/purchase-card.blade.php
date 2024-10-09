@@ -2,7 +2,7 @@
     <div class="p-2">
         <!-- Display Order ID และ วันที่การสั่งซื้อ -->
         <h2 class="font-bold text-xl mb-2">Order ID: {{ $order->id }}</h2>
-        <p class="text-gray-600">Purchase Date: {{ \Carbon\Carbon::parse($order->purchase_date)->format('d M Y, H:i') }}</p>
+        <h2 class="text-gray-600">Purchase Date: {{ \Carbon\Carbon::parse($order->purchase_date)->format('d M Y, H:i') }}</p>
 
         <!-- Loop through order items และเรียงไปทางขวา -->
         <div class="flex overflow-x-auto space-x-4 mt-4"> <!-- ใช้ flex เพื่อจัดเรียงสินค้าแนวนอน -->

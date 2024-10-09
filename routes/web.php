@@ -15,10 +15,15 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+
 Route::get('/products/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;
+  
+Route::get('/help', function () {
+    return view('help.index');
+})->name('help.index');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -38,8 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
     Route::get('/products/{product}/ratings/create', [RatingController::class, 'create'])->name('rating.create');
     Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
-  
-    
 });
 
 require __DIR__.'/auth.php';

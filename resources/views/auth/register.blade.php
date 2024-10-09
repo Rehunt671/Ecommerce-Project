@@ -29,9 +29,9 @@
                 
                 <!-- Right side of form (Picture Upload and Confirm Information) -->
                 <div class="w-full lg:w-1/3 flex flex-col items-center mt-6 lg:mt-0" >
-                    <div class="w-60 h-80 mt-5 border-2 border-gray-300 rounded-lg flex items-center justify-center text-gray-500 mb-4 relative">
+                    <div class="w-60 h-80 mt-5 border-2 border-gray-300 rounded-lg flex items-center justify-center text-gray-500 mb-4 relative cursor-pointer" onclick="document.getElementById('profile_picture').click();">
                         <input type="file" name="profile_picture" accept="image/*" class="hidden" id="profile_picture" onchange="previewImage(event)">
-                        <label for="profile_picture" class="cursor-pointer absolute inset-0 flex items-center justify-center">Add Picture</label>
+                        <span id="upload_text">Add Picture</span>
                         <img id="image_preview" class="hidden w-full h-full object-cover rounded-lg" />
                     </div>
                     <div class="flex items-center space-x-2 mt-4">
@@ -52,18 +52,21 @@
         function previewImage(event) {
             const input = event.target;
             const imagePreview = document.getElementById('image_preview');
-            
+            const uploadText = document.getElementById('upload_text'); // Reference to the upload text
+
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.classList.remove('hidden');
+                    uploadText.classList.add('hidden'); // Hide the upload text
                 }
                 
                 reader.readAsDataURL(input.files[0]);
             } else {
                 imagePreview.classList.add('hidden');
+                uploadText.classList.remove('hidden'); // Show the upload text if no file is selected
             }
         }
     </script>

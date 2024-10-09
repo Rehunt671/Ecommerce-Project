@@ -9,10 +9,22 @@
         <h2 class="font-bold text-lg mb-2">{{ $product->name }}</h2>
         <p class="text-sm text-gray-600">{{ $product->description }}</p>
     </div>
-    <div class="product-actions flex justify-between mt-6">
-        <button aria-label="Add to cart">
-            <img src="{{ asset('/storage/cart.png') }}" class="w-10 h-auto" alt="Add to Cart" />
-        </button>
+    <div class="flex justify-between mt-6">
+        <div class="relative">
+            <form method="POST" action="{{ route('cart.upsert') }}">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <button aria-label="Add to cartItems" class="flex items-center">
+                    <img src="{{ asset('/storage/cart.png') }}" class="w-10 h-auto" alt="Add to Cart" />
+                        <!-- Cart Count Badge -->
+                        @if($product->cart_quantity > 0)
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-2">{{ $product->cart_quantity }}</span>
+                        @endif
+                    </button>
+                </button>
+            </form>
+        </div>
+
         <form method="POST" action="{{ route('wishlist.remove') }}" class="inline toggle-wishlist-form">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">

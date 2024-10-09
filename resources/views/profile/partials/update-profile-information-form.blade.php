@@ -16,7 +16,11 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
-
+        <div class="w-60 h-80 mt-5 border-2 border-gray-300 rounded-lg flex items-center justify-center text-gray-500 mb-4 relative cursor-pointer" onclick="document.getElementById('profile_picture').click();">
+            <input type="file" name="profile_picture" accept="image/*" class="hidden" id="profile_picture" onchange="previewImage(event)">
+            <span id="upload_text">Add Picture</span>
+            <img id="image_preview" class="hidden w-full h-full object-cover rounded-lg" />
+        </div>
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -47,6 +51,19 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="phone" :value="__('Phone Number')" />
+            <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="location" :value="__('Location')" />
+            <x-text-input id="location" name="location" type="text" class="mt-1 block w-full" :value="old('location', $user->location)" required autocomplete="address-level2" />
+            <x-input-error class="mt-2" :messages="$errors->get('location')" />
+        </div>
+
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -61,4 +78,26 @@
             @endif
         </div>
     </form>
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const imagePreview = document.getElementById('image_preview');
+            const uploadText = document.getElementById('upload_text'); // Reference to the upload text
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    uploadText.classList.add('hidden'); // Hide the upload text
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                imagePreview.classList.add('hidden');
+                uploadText.classList.remove('hidden'); // Show the upload text if no file is selected
+            }
+        }
+    </script>
 </section>

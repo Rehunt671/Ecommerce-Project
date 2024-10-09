@@ -4,18 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
     public function getWishlistProducts()
     {
-        $user = auth()->user();
+        $userId = auth()->id(); 
     
-        $products = $user->wishlists()->paginate(20);
+        $products = DB::table('users')
+            ->join('wishlists', 'wishlists.user_id', '=', 'users.id')
+            ->join('cart_items', function ($join) {
+                $join->on('cart_items.user_id', '=', 'users.id')
+                     ->on('cart_items.product_id', '=', 'wishlists.product_id');
+            })
+            ->join('products', 'products.id', '=', 'cart_items.product_id')
+            ->where('users.id', $userId) // Use the authenticated user's ID
+            ->select('products.*', 'cart_items.quantity as cart_quantity') // Select columns separately
+            ->paginate(10); 
     
         return view("wishlist.index", compact("products"));
     }
-    
     public function toggleWishlistProduct(Request $request) {
         // $request->validate([
         //     'product_id' => 'required|exists:products,id',
