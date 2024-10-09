@@ -17,7 +17,7 @@
             @else
                 @foreach($pendingOrders as $order)
                     <div>
-                        <x-purchase-card :order="$order" />
+                        <x-order-history :order="$order" />
                     </div>
                 @endforeach
             @endif
@@ -31,7 +31,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($completedOrders as $order)
-                            <x-purchase-card :order="$order" />
+                            <x-order-history :order="$order" />
                     @endforeach
                 </div>
             @endif

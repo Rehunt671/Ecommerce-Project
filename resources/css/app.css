@@ -4,8 +4,9 @@
 
 body {
     background-image: url("/public/storage/bg.jpg");
-    background-size: cover; /* Adjust as needed */
     background-position: center;
+    background-size: cover; /* Adjust as needed */
+    background-attachment: fixed;
 }
 
 h1 {
