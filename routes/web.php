@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart', [CartController::class, 'upsertCartProduct'])->name('cart.upsert');
     Route::delete('/cart/{productId}', [CartController::class, 'deleteCartItem'])->name('cart.delete');
 
+    Route::get('/order', [OrderController::class, 'getOrders'])->name('order.index');
     Route::post('/order', [OrderController::class, 'addOrder'])->name('order.add');
     Route::get('/purchase/{orderId}', [PurchaseController::class, 'getPurchaseByOrder'])->name('purchase.index');
     Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');

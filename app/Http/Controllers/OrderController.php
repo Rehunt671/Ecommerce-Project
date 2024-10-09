@@ -10,6 +10,28 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+
+    public function getOrders()
+    {
+        $user = auth()->user();
+    
+        // Fetch all orders with products in one query
+        $orders = Order::with('orderItems.product') // Eager load the order items and associated products
+                       ->where('user_id', $user->id)
+                       ->get();
+    
+        // Separate pending and completed orders
+        $pendingOrders = $orders->filter(function ($order) {
+            return is_null($order->purchase_date);
+        });
+    
+        $completedOrders = $orders->filter(function ($order) {
+            return !is_null($order->purchase_date);
+        });
+    
+        return view('order.index', compact('pendingOrders', 'completedOrders'));
+    }
+    
     public function addOrder(Request $request)
     {
         $user = auth()->user();

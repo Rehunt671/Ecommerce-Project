@@ -1,28 +1,16 @@
-<div class="w-1/2 p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl mb-6 px-6 mx-auto"> <!-- เปลี่ยน width เป็น full -->
-    <div class="p-2">
-        <!-- Display Order ID และ วันที่การสั่งซื้อ -->
-        <h2 class="font-bold text-xl mb-2">Order ID: {{ $order->id }}</h2>
-        <h2 class="text-gray-600">Purchase Date: {{ \Carbon\Carbon::parse($order->purchase_date)->format('d M Y, H:i') }}</p>
-
-        <!-- Loop through order items และเรียงไปทางขวา -->
-        <div class="flex overflow-x-auto space-x-4 mt-4"> <!-- ใช้ flex เพื่อจัดเรียงสินค้าแนวนอน -->
-            @foreach($order->orderItems as $item)
-                <a href ="{{ route('rating.create', ['product' => $item->product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl">
-                    @csrf
-                    <div class="w-48 flex-shrink-0">
-                        <div class="relative h-64 rounded-md overflow-hidden">
-                            <img src="{{ asset('storage/' . $item->product->image_name) }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover" />
-                            <h3 class="absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-75 text-white text-center p-2">
-                                {{ number_format($item->product->price, 2) }} ฿
-                            </h3>
-                        </div>
-                        <div class="p-2">
-                            <h2 class="font-bold text-lg mb-2">{{ $item->product->name }}</h2>
-                            <p class="text-sm text-gray-600">{{ $item->product->description }}</p>
-                        </div>
-                    </div>
-                </a>
-            @endforeach
+@foreach($order->orderItems as $item)
+    <div class="mb-5 bg-white border p-4 rounded-lg ">
+        <img src="{{ asset('storage/' . $item->product->image_name) }}" alt="{{ $item->name }}" class="w-full h-32 object-cover mb-4">
+        <h3 class="text-lg font-semibold">{{ $item->product->name }}</h3>
+        <p class="text-gray-700">จำนวนสินค้า: {{ number_format($item->quantity_sold) }}</p>
+        <p class="text-gray-700"> ราคาต่อหน่วย: ฿{{ number_format($item->product->price, 2) }}</p>
+        <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+        <p class="text-red-600 font-bold">รวมการสั่งซื้อ: ฿{{ number_format($item->product->price * $item->quantity_sold, 2) }}</p>
+        <div class="flex justify-between items-center mt-4">
+            <button class="bg-orange-500 text-white rounded px-4 py-2">ให้คะแนน</button>
+            <button class="bg-gray-300 rounded px-4 py-2">ติดต่อลูกค้า</button>
+            <button class="bg-blue-500 text-white rounded px-4 py-2">ซื้ออีกครั้ง</button>
         </div>
+        <p class="text-gray-500 text-sm mt-2">จัดส่งภายใน: {{ $item->delivery_date }}</p>
     </div>
-</div>
+@endforeach
