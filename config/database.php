@@ -144,7 +144,7 @@ return [
     //the redis driver
     'redis' => [
         //the redis client (requires installing the phpredis.so extension using pecl)
-        'client' => 'phpredis',
+        'client' => 'predis',
 
         'options' => [
             //this setting is only effective when using a managed redis cluster. No impact if redis cluster is not used.

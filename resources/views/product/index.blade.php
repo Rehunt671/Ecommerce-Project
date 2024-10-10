@@ -16,7 +16,4 @@
         <div class=" md:block w-1/6"> 
         </div>
     </div>
-    <div class="mt-4">
-        {{ $products->links() }} 
-    </div>
 </x-app-layout>

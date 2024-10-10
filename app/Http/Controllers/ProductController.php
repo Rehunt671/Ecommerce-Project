@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis; // Use Redis directly
 use App\Models\Product;
 use App\Models\ProductCategory;
-use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -17,14 +16,19 @@ class ProductController extends Controller
      */
     public function getByCategory($id)
     {
-        $category = ProductCategory::findOrFail($id);  // Simplified error handling
+        $category = ProductCategory::findOrFail($id);  
 
         $query = request()->input('name');
         $cacheKey = "products_category_{$id}";
 
-        $products = Cache::remember($cacheKey, 60, function () use ($id, $query) {
-            return $this->fetchProducts($id, $query);
-        });
+        $products = Redis::get($cacheKey);
+
+        if ($products) {
+            $products = json_decode($products);
+        } else {
+            $products = $this->fetchProducts($id, $query);
+            Redis::setex($cacheKey, 3600, json_encode($products));
+        }
 
         $user = auth()->user();
         $wishlists = $user ? $user->wishlists->pluck('id')->toArray() : [];
@@ -36,31 +40,17 @@ class ProductController extends Controller
         return view('product.index', compact('category', 'products'));
     }
 
-    /**
-     * Fetch products by category and optional query.
-     *
-     * @param int $id
-     * @param string|null $query
-     * @return \Illuminate\Pagination\LengthAwarePaginator
-     */
     protected function fetchProducts($id, $query = null)
     {
         $productQuery = Product::where('category', $id);
-
+    
         if ($query) {
             $productQuery->whereRaw('LOWER(name) LIKE ?', ["%{$query}%"]);
         }
-
-        return $productQuery->paginate(20);
+    
+        return $productQuery->get(); 
     }
 
-    /**
-     * Attach wishlist status to products.
-     *
-     * @param \Illuminate\Pagination\LengthAwarePaginator $products
-     * @param array $wishlists
-     * @return void
-     */
     protected function attachWishlistInfo($products, array $wishlists)
     { 
         foreach ($products as $product) {
@@ -68,18 +58,10 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Attach cart item quantity to products.
-     *
-     * @param \Illuminate\Pagination\LengthAwarePaginator $products
-     * @param array $cartItems
-     * @return void
-     */
     protected function attachCartItemInfo($products, array $cartItems)
     {  
         foreach ($products as $product) {
             $product->cart_quantity = $cartItems[$product->id] ?? 0;
         }
-        
     }
 }

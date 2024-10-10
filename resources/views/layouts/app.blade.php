@@ -23,7 +23,7 @@
         type="module"
         src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"
         ></script>
-
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
@@ -64,5 +64,6 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
             </script>
+            @livewireScripts
     </body>
 </html>
