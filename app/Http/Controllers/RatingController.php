@@ -14,11 +14,6 @@ class RatingController extends Controller
         return view('rating.index', compact('ratings'));
     }
 
-    public function create($productId) {
-        $product = Product::findOrFail($productId);
-        return view('rating.add', compact('product'));
-    }
-    
     public function addProductRating(Request $request, $productId) {
         $product = Product::findOrFail($productId);
         $request->validate([

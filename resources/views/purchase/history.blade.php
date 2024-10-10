@@ -7,7 +7,7 @@
         @else
             <div class="space-y-4"> <!-- เพิ่มระยะห่างระหว่างการ์ด -->
                 @foreach ($orders as $order)
-                    <x-purchase-card :order="$order" />
+                    <x-order-history-card :order="$order" />
                 @endforeach
             </div>
 

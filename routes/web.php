@@ -15,10 +15,15 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+
 Route::get('/products/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;
+  
+Route::get('/help', function () {
+    return view('help.index');
+})->name('help.index');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -30,16 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart', [CartController::class, 'upsertCartProduct'])->name('cart.upsert');
     Route::delete('/cart/{productId}', [CartController::class, 'deleteCartItem'])->name('cart.delete');
 
+    Route::get('/order', [OrderController::class, 'getOrders'])->name('order.index');
     Route::post('/order', [OrderController::class, 'addOrder'])->name('order.add');
     Route::get('/purchase/{orderId}', [PurchaseController::class, 'getPurchaseByOrder'])->name('purchase.index');
     Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
-    Route::get('/products/{product}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
-    Route::get('/products/{product}/ratings/create', [RatingController::class, 'create'])->name('rating.create');
-    Route::post('/products/{product}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
-  
-    
+    Route::get('/products/{productId}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
+    Route::post('/products/{productId}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
 });
 
 require __DIR__.'/auth.php';

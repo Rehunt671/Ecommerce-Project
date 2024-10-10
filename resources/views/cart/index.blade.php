@@ -3,7 +3,10 @@
     <h1>Shopping Cart</h1>
     <div class="container mx-auto px-4 py-6">
         @if ($cartProducts->isEmpty())
-            <p class="text-black-600">Your cart is empty.</p>
+        <div class="flex items-center justify-center bg-gray-100 border border-gray-300 rounded-md p-4 mb-4">
+        <p class="font-bold text-lg text-gray-700">Your cart is empty.</p>
+    </div>
+    </div>
         @else
             <div class="bg-white shadow-md rounded-lg p-6">
                 <table class="w-full text-left border border-gray-300">
