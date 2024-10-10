@@ -11,20 +11,20 @@ class WishlistController extends Controller
     public function getWishlistProducts()
     {
         $userId = auth()->id(); 
-    
-        $products = DB::table('users')
-            ->join('wishlists', 'wishlists.user_id', '=', 'users.id')
-            ->join('cart_items', function ($join) {
-                $join->on('cart_items.user_id', '=', 'users.id')
-                     ->on('cart_items.product_id', '=', 'wishlists.product_id');
+
+        $products = DB::table('wishlists')
+            ->join('products', 'wishlists.product_id', '=', 'products.id')
+            ->leftJoin('cart_items', function ($join) use ($userId) {
+                $join->on('cart_items.product_id', '=', 'wishlists.product_id')
+                     ->where('cart_items.user_id', '=', $userId);
             })
-            ->join('products', 'products.id', '=', 'cart_items.product_id')
-            ->where('users.id', $userId) // Use the authenticated user's ID
-            ->select('products.*', 'cart_items.quantity as cart_quantity') // Select columns separately
-            ->paginate(10); 
+            ->where('wishlists.user_id', $userId) 
+            ->select('products.*', 'cart_items.quantity as cart_quantity') 
+            ->paginate(20);
     
         return view("wishlist.index", compact("products"));
     }
+
     public function toggleWishlistProduct(Request $request) {
         // $request->validate([
         //     'product_id' => 'required|exists:products,id',

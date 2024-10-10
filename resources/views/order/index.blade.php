@@ -15,11 +15,11 @@
             @if($pendingOrders->isEmpty())
                 <p>You have no pending orders.</p>
             @else
-                @foreach($pendingOrders as $order)
-                    <div>
-                        <x-order-history :order="$order" />
-                    </div>
-                @endforeach
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach($pendingOrders as $order)
+                            <x-order-card :order="$order" />
+                    @endforeach
+                </div>
             @endif
         </div>
 
@@ -31,7 +31,7 @@
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($completedOrders as $order)
-                            <x-order-history :order="$order" />
+                            <x-order-history-card :order="$order" />
                     @endforeach
                 </div>
             @endif

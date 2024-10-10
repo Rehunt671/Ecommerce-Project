@@ -16,6 +16,6 @@ class PurchaseCard extends Component
 
     public function render()
     {
-        return view('components.order-history');
+        return view('components.order-history-card');
     }
 }

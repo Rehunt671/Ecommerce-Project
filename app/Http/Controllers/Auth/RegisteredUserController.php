@@ -36,18 +36,18 @@ class RegisteredUserController extends Controller
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Validate image
         ]);
 
-    // Handle image upload
-    $imagePath = null;
-    if ($request->hasFile('profile_picture')) {
-        // Store the file in the 'profile_pictures' directory within the default storage location
-        $imagePath = $request->file('profile_picture')->store('profile_pictures','public');
-    }
+
+        $imageName = null;
+        if ($request->hasFile('profile_picture')) {
+            $imageName = time().'.'.$request->profile_picture->extension();
+            $request->profile_picture->move(public_path('storage'), $imageName);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'image_name' => $imagePath, // Store image path
+            'image_name' => $imageName, // Store image path
         ]);
 
         event(new Registered($user));

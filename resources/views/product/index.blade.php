@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex justify-between">
-        <div class=" md:block w-1/6">  
+        <div class="md:block w-1/6">  
         </div>
         <div class="grid grid-cols-5 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-6 lg:gap-10">
             <div class="col-span-3 flex flex-col items-center text-center">
@@ -13,7 +13,11 @@
                 <x-product-card :product="$product" />
             @endforeach
         </div>
-        <div class=" md:block w-1/6"> 
+        <div class="md:block w-1/6"> 
         </div>
+    </div>
+    {{-- Pagination Links --}}
+    <div class="pagination">
+        {{ $products->links() }}
     </div>
 </x-app-layout>
