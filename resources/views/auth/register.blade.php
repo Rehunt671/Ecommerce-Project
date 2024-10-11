@@ -1,5 +1,4 @@
 <x-app-layout>
-    <!-- Signup Form -->
     <div class="flex justify-center items-center mt-10">
         <div class="bg-white bg-opacity-90 rounded-lg p-10 shadow-lg w-full max-w-4xl">
             <form method="POST" action="{{ route('register') }}" class="space-y-4 flex flex-col lg:flex-row lg:space-y-0 lg:space-x-8" enctype="multipart/form-data">
@@ -8,22 +7,40 @@
                 <!-- Left side of form (Inputs) -->
                 <div class="w-full lg:w-2/3 space-y-4">
                     <div>
-                        <input type="text" name="name" placeholder="Name" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <input type="text" name="name" placeholder="Name" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('name') }}" required />
+                        @error('name')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
-                        <input type="text" name="email" placeholder="Username" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <input type="text" name="email" placeholder="Username" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('email') }}" required />
+                        @error('email')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="password" name="password" placeholder="Password" class="w-full mt-5 border-2 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        @error('password')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
                         <input type="password" name="password_confirmation" placeholder="Confirm Password" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        @error('password_confirmation')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
-                        <input type="tel" name="phone" placeholder="Phone Number" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input type="tel" name="phone" placeholder="Phone Number" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('phone') }}" />
+                        @error('phone')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div>
-                        <input type="text" name="location" placeholder="Location" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input type="text" name="location" placeholder="Location" class="w-full border-2 mt-5 border-gray-300 rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('location') }}" />
+                        @error('location')
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 

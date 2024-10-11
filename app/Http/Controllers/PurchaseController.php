@@ -17,12 +17,6 @@ class PurchaseController extends Controller
             ->with(['orderItems.product'])
             ->paginate(20);
     
-        // Log the orders
-        Log::info('User Purchase :', [
-            'order' => $order->toArray() // Convert the orders collection to an array for logging
-        ]);
-    
-        // return response()->json($order);
         return view('purchase.index', compact('order'));
     }
 
@@ -37,11 +31,10 @@ class PurchaseController extends Controller
             return redirect()->back()->with('error', 'Order not found.');
         }
     
-        // อัปเดต purchase_date เป็นวันที่ปัจจุบัน
-        $order->purchase_date = now(); // ใช้ now() เพื่อรับวันที่และเวลาปัจจุบัน
-        $order->save(); // บันทึกการเปลี่ยนแปลง
+        $order->purchase_date = now(); 
+        $order->save(); 
     
-        return redirect()->route('cart.index')->with('success', 'Purchase confirmed successfully!');
+        return redirect()->route('dashboard.index')->with('success', 'Purchase confirmed successfully!');
     }
     
 }

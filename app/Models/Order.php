@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-
-    // Define the table name (optional if it follows Laravel's naming convention)
+    const UPDATED_AT = null;
     protected $table = 'orders';
-
-    // Fillable attributes for mass assignment
+    
     protected $fillable = [
         'user_id',
         'purchase_date',

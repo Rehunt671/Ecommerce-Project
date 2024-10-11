@@ -14,6 +14,17 @@ class RatingController extends Controller
         return view('rating.index', compact('ratings'));
     }
 
+    public function getAddProductRating($productId)
+    {
+        $product = Product::find($productId);
+    
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+    
+        return view('rating.add', compact('product'));
+    }
+    
     public function addProductRating(Request $request, $productId) {
         $product = Product::findOrFail($productId);
         $request->validate([
@@ -23,14 +34,14 @@ class RatingController extends Controller
 
         $user = auth()->user();
 
-        $rating = Rating::create([
+        $ratings = Rating::create([
             'user_id' => $user->id,
             'product_id' => $productId,
             'rating' => $request->rating,
             'review_text' => $request->review_text
         ]);
 
-        // return response()->json($rating, 201);
-        return redirect()->route('rating.index', ['product' => $product->id]);
+        return redirect()->route('rating.index', ['productId' => $productId])
+        ->with('success', 'Your rating has been submitted successfully!');
     }
 }

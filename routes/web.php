@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('dashboard.index');
 
 
-Route::get('/products/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;
+Route::get('/product/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;
   
 Route::get('/help', function () {
     return view('help.index');
@@ -41,8 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
-    Route::get('/products/{productId}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
-    Route::post('/products/{productId}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
+    Route::get('/product/{productId}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
+    Route::get('/product/{productId}/ratings/form', [RatingController::class, 'getAddProductRating'])->name('rating.form');
+    Route::post('/product/{productId}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
 });
 
 require __DIR__.'/auth.php';
