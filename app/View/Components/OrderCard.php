@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class OrderHistoryCard extends Component
+class OrderCard extends Component
 {
     public $order;
 

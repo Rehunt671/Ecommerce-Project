@@ -1,8 +1,11 @@
 <x-app-layout>
     <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div class="flex justify-center mb-6">
+            <img src="{{ asset('storage/' . $product->image_name) }}" alt="{{ $product->name }}" class="w-32 h-32 object-cover rounded-full">
+        </div>
         <h2 class="text-2xl font-bold mb-6 text-center">Write a Review for {{ $product->name }}</h2>
 
-        <form action="{{ route('rating.add', ['product' => $product->id]) }}" method="POST">
+        <form action="{{ route('rating.add', ['productId' => $product->id]) }}" method="POST">
             @csrf
 
             <!-- ฟิลด์สำหรับกรอกคะแนน -->

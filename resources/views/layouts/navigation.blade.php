@@ -22,7 +22,7 @@
             <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
               <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
                 @foreach(\App\Models\ProductCategory::all() as $category)
-                    <a href="{{ url('/products/category/' . $category->id) }}" class="block px-4 py-2 text-xl font-semibold text-gray-900 hover:bg-gray-200 dark-mode:text-gray-200 dark-mode:hover:bg-gray-600">
+                    <a href="{{ url('/product/category/' . $category->id) }}" class="block px-4 py-2 text-xl font-semibold text-gray-900 hover:bg-gray-200 dark-mode:text-gray-200 dark-mode:hover:bg-gray-600">
                         {{ $category->name }}
                     </a>
                 @endforeach
