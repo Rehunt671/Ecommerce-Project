@@ -2,99 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Redis; // Use Redis directly
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use Illuminate\Pagination\LengthAwarePaginator;
-
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 class ProductController extends Controller
 {
     public function getByCategory($id)
     {
-        $category = ProductCategory::findOrFail($id);  
+        // Find the category by ID or fail
+        $category = ProductCategory::findOrFail($id);
     
+        // Get the search query from request input
         $query = request()->input('name');
+    
+        // Get the authenticated user's ID
+        $userId = Auth::id(); // Retrieves the currently authenticated user's ID
+    
+        // Define the cache key
         $cacheKey = "products_category_{$id}";
     
-        $products = Redis::get($cacheKey);
+        // Attempt to retrieve products from Redis cache
+        $cachedProducts = Redis::get($cacheKey);
     
-        if ($products) {
-            $products = json_decode($products, true);
+        if (!$cachedProducts) {
+            // Build the query to get products
+            $products = DB::table('products')
+                ->join('product_categories', 'product_categories.id', '=', 'products.category')
+                ->leftJoin('cart_items', function ($join) use ($userId) {
+                    $join->on('cart_items.product_id', '=', 'products.id')
+                         ->where('cart_items.user_id', '=', $userId);
+                })
+                ->leftJoin(DB::raw('(SELECT wishlists.product_id FROM users JOIN wishlists ON wishlists.user_id = users.id WHERE users.id = ' . $userId . ') AS user_wishlist'), function($join) {
+                    $join->on('user_wishlist.product_id', '=', 'products.id');
+                })
+                ->select('products.*', 
+                         'product_categories.name as category_name', 
+                         'user_wishlist.product_id as wishlist_product_id', 
+                         'cart_items.id as cart_item_id', 
+                         'cart_items.quantity as cart_quantity')
+                ->where('product_categories.id', $id)
+                ->when($query, function ($queryBuilder) use ($query) {
+                    return $queryBuilder->where('products.name', 'like', "%{$query}%");
+                })
+                ->orderBy('wishlist_product_id')
+                ->get(); 
+    
+            Redis::set($cacheKey, $products->toJson());
+            Redis::expire($cacheKey, 3600);
         } else {
-            $products = $this->fetchProducts($id)->toArray();
-            Redis::setex($cacheKey, 3600, json_encode($products));
+            $products = collect(json_decode($cachedProducts)); // This will be a collection of objects
         }
-    
-        $products = $this->searchProducts($products, $query);
-    
-        $user = auth()->user();
-        $wishlists = $user ? $user->wishlists->pluck('id')->toArray() : [];
-        $cartItems = $user ? $user->cartItems->pluck('quantity', 'product_id')->toArray() : [];
-    
-        $this->attachWishlistInfo($products, $wishlists);
-        $this->attachCartItemInfo($products, $cartItems);
-    
-        // Order products
-        $products = $this->orderProducts($products);
-    
-        // Paginate products
-        $products = $this->paginateProducts($products);
     
         return view('product.index', compact('category', 'products'));
     }
     
 
-    private function orderProducts($products)
-    {
-        usort($products, function($a, $b) {
-            return ($b['isWishlist'] <=> $a['isWishlist']); // Sort descending (true first)
-        });
-
-        return $products;
-    }
-
-    private function paginateProducts($products)
-    {
-        $perPage = 5; 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentItems = array_slice($products, ($currentPage - 1) * $perPage, $perPage);
-
-        return new LengthAwarePaginator($currentItems, count($products), $perPage, $currentPage, [
-            'path' => LengthAwarePaginator::resolveCurrentPath(),
-            'query' => request()->query(),
-        ]);
-    }
-
-    protected function fetchProducts($id)
-    {
-        $productQuery = Product::where('category', $id);
-        return $productQuery->get(); 
-    }
-
-    public function searchProducts($products, $query)
-    {
-        if (empty($query)) {
-            return $products; 
-        }
-
-        return array_filter($products, function ($product) use ($query) {
-            return stripos($product->name, $query) !== false; // Check if the name contains the query
-        });
-    }
-
-    protected function attachWishlistInfo(&$products, array $wishlists)
-    {
-        foreach ($products as &$product) { 
-            $product['isWishlist'] = in_array($product['id'], $wishlists);
-        }
-    }
-    
-    
-    protected function attachCartItemInfo(&$products, array $cartItems)
-    {  
-        foreach ($products as &$product) { 
-            $product['cart_quantity'] = $cartItems[$product['id']] ?? 0;
-        }
-    }
 }
