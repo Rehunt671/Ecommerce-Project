@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('dashboard.index');
 
 
 Route::get('/products/category/{id}', [ProductController::class, 'getByCategory'])->name('products.category');;

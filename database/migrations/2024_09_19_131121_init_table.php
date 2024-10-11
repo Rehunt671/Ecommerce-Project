@@ -19,7 +19,6 @@ class InitTable extends Migration
             $table->string('name');
             $table->string('infomation')->nullable();
             $table->string('image_name')->nullable();
-            $table->timestamps();
         });
         
         // Create users table
@@ -28,9 +27,9 @@ class InitTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('role');
             $table->string('image_name')->nullable();
             $table->rememberToken();
-            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -51,7 +50,7 @@ class InitTable extends Migration
         // Create product_category table
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
         });
 
         // Create products table
@@ -64,7 +63,6 @@ class InitTable extends Migration
             $table->integer('stock');
             $table->string('status');
             $table->string('image_name')->nullable();
-            $table->timestamps();
         });
 
         // Create cart_items table
@@ -73,14 +71,13 @@ class InitTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->timestamps();
+            $table->unique(['user_id', 'product_id']); // Add a unique constraint on user_id and product_id
         });
 
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
         });
 
         // Create promotions table
@@ -100,7 +97,6 @@ class InitTable extends Migration
             $table->foreignId('product_id')->constrained();
             $table->integer('rating');
             $table->text('review_text')->nullable();
-            $table->timestamp('created_at')->useCurrent();
         });
 
         // Create orders table
@@ -108,7 +104,7 @@ class InitTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained(); // Links to users table
             $table->timestamp('purchase_date')->useCurrent()->nullable(); // Date of the sale
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         // Create order_items table
@@ -118,7 +114,6 @@ class InitTable extends Migration
             $table->foreignId('product_id')->constrained(); // Links to products table
             $table->integer('quantity_sold'); // Quantity of the product sold in this order
             $table->decimal('price_per_item', 10, 2); // Price of a single product unit at the time of sale
-            $table->timestamps();
         });
 
         Schema::create('cache', function (Blueprint $table) {
@@ -144,6 +139,7 @@ class InitTable extends Migration
         Schema::dropIfExists('banners'); // Drop before products
         Schema::dropIfExists('cart_items'); // Drop before products
         Schema::dropIfExists('wishlists'); // Drop before products
+        Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
         Schema::dropIfExists('ratings');
         Schema::dropIfExists('promotions');
