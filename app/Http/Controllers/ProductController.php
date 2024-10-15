@@ -9,56 +9,45 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+
 class ProductController extends Controller
 {
     public function getByCategory($id)
     {
-        // Find the category by ID or fail
         $category = ProductCategory::findOrFail($id);
-    
-        // Get the search query from request input
+        
         $query = request()->input('name');
+        
+        // Get the user ID if the user is authenticated, otherwise set to null
+        $userId = Auth::check() ? Auth::id() : null; 
     
-        // Get the authenticated user's ID
-        $userId = Auth::id(); // Retrieves the currently authenticated user's ID
+        // Start the query builder for products
+        $productsQuery = DB::table('products')
+            ->join('product_categories', 'product_categories.id', '=', 'products.category')
+            ->select('products.*', 
+                     'product_categories.name as category_name');
     
-        // Define the cache key
-        $cacheKey = "products_category_{$id}";
-    
-        // Attempt to retrieve products from Redis cache
-        $cachedProducts = Redis::get($cacheKey);
-    
-        if (!$cachedProducts) {
-            // Build the query to get products
-            $products = DB::table('products')
-                ->join('product_categories', 'product_categories.id', '=', 'products.category')
-                ->leftJoin('cart_items', function ($join) use ($userId) {
-                    $join->on('cart_items.product_id', '=', 'products.id')
-                         ->where('cart_items.user_id', '=', $userId);
-                })
-                ->leftJoin(DB::raw('(SELECT wishlists.product_id FROM users JOIN wishlists ON wishlists.user_id = users.id WHERE users.id = ' . $userId . ') AS user_wishlist'), function($join) {
-                    $join->on('user_wishlist.product_id', '=', 'products.id');
-                })
-                ->select('products.*', 
-                         'product_categories.name as category_name', 
-                         'user_wishlist.product_id as wishlist_product_id', 
-                         'cart_items.id as cart_item_id', 
-                         'cart_items.quantity as cart_quantity')
-                ->where('product_categories.id', $id)
-                ->when($query, function ($queryBuilder) use ($query) {
-                    return $queryBuilder->where('products.name', 'like', "%{$query}%");
-                })
-                ->orderBy('wishlist_product_id')
-                ->get(); 
-    
-            Redis::set($cacheKey, $products->toJson());
-            Redis::expire($cacheKey, 3600);
-        } else {
-            $products = collect(json_decode($cachedProducts)); // This will be a collection of objects
+        if ($userId) {
+            $productsQuery->leftJoin('cart_items', function ($join) use ($userId) {
+                $join->on('cart_items.product_id', '=', 'products.id')
+                     ->where('cart_items.user_id', '=', $userId);
+            })
+            ->leftJoin(DB::raw("(SELECT product_id FROM wishlists WHERE user_id = {$userId}) AS user_wishlist"), function($join) {
+                $join->on('user_wishlist.product_id', '=', 'products.id');
+            })
+            ->addSelect('user_wishlist.product_id as wishlist_product_id', 
+                        'cart_items.id as cart_item_id', 
+                        'cart_items.quantity as cart_quantity')
+            ->orderBy('wishlist_product_id'); 
         }
+    
+        $products = $productsQuery
+            ->where('product_categories.id', $id)
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->where('products.name', 'like', "%{$query}%");
+            })
+            ->paginate(20);
     
         return view('product.index', compact('category', 'products'));
     }
-    
-
 }

@@ -13,20 +13,31 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+        
+        <!-- Profile Picture Upload -->
         <div class="w-60 h-80 mt-5 border-2 border-gray-300 rounded-lg flex items-center justify-center text-gray-500 mb-4 relative cursor-pointer" onclick="document.getElementById('profile_picture').click();">
             <input type="file" name="profile_picture" accept="image/*" class="hidden" id="profile_picture" onchange="previewImage(event)">
-            <span id="upload_text">Add Picture</span>
-            <img id="image_preview" class="hidden w-full h-full object-cover rounded-lg" />
+
+            <!-- If user already has an image, display it, otherwise show the upload text -->
+            @if (Auth::user()->image_name)
+                <img src="{{ asset('storage/' . Auth::user()->image_name) }}" id="image_preview" class="w-full h-full object-cover rounded-lg" />
+            @else
+                <span id="upload_text">Add Picture</span>
+                <img src="" id="image_preview" class="hidden w-full h-full object-cover rounded-lg" />
+            @endif
         </div>
+
+        <!-- Name Input -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+        <!-- Email Input -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
@@ -51,19 +62,21 @@
             @endif
         </div>
 
+        <!-- Phone Input -->
         <div>
             <x-input-label for="phone" :value="__('Phone Number')" />
             <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="tel" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
+        <!-- Location Input -->
         <div>
             <x-input-label for="location" :value="__('Location')" />
             <x-text-input id="location" name="location" type="text" class="mt-1 block w-full" :value="old('location', $user->location)" required autocomplete="address-level2" />
             <x-input-error class="mt-2" :messages="$errors->get('location')" />
         </div>
 
-
+        <!-- Save Button -->
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -75,14 +88,21 @@
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600 dark:text-gray-400"
                 >{{ __('Saved.') }}</p>
+                <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'profile-updated' }));
+                    });
+                </script>
             @endif
         </div>
     </form>
+
+    <!-- JavaScript for Image Preview -->
     <script>
         function previewImage(event) {
             const input = event.target;
             const imagePreview = document.getElementById('image_preview');
-            const uploadText = document.getElementById('upload_text'); // Reference to the upload text
+            const uploadText = document.getElementById('upload_text');
 
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -90,14 +110,16 @@
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.classList.remove('hidden');
-                    uploadText.classList.add('hidden'); // Hide the upload text
+                    uploadText.classList.add('hidden');
                 }
                 
                 reader.readAsDataURL(input.files[0]);
             } else {
                 imagePreview.classList.add('hidden');
-                uploadText.classList.remove('hidden'); // Show the upload text if no file is selected
+                uploadText.classList.remove('hidden');
             }
         }
     </script>
 </section>
+
+
