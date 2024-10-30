@@ -38,11 +38,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/order', [OrderController::class, 'getOrders'])->name('order.index');
     Route::post('/order', [OrderController::class, 'addOrder'])->name('order.add');
+    
     Route::get('/purchase/{orderId}', [PurchaseController::class, 'getPurchaseByOrder'])->name('purchase.index');
     Route::post('/purchase/{orderId}', [PurchaseController::class, 'purchaseConfirm'])->name('purchase.confirm');
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'getPurchaseHistory'])->name('purchase.history');
 
-    // Route::get('/product/{productId}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
+    Route::get('/product/{productId}/ratings', [RatingController::class, 'getProductRating'])->name('rating.index');
     Route::get('/product/{productId}/ratings/form', [RatingController::class, 'getAddProductRating'])->name('rating.form');
     Route::post('/product/{productId}/ratings', [RatingController::class, 'addProductRating'])->name('rating.add');
 });

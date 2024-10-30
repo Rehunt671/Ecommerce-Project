@@ -22,8 +22,11 @@
                     <tbody>
                         @foreach ($cartProducts as $item)
                             <tr>
-                            <td class="py-3 px-4 border-b">{{ $item->name }}</td>
-                                <td class="py-3 px-4 border-b">
+                                    <td class="py-3 px-4 border-b flex items-center space-x-2">
+                                                <span>{{ $item->name }}</span>
+                                                <img src="{{ asset('storage/' . $item->image_name) }}" alt="{{ $item->name }}" class="w-16 h-16 object-cover rounded-md">
+                                            </td>
+                                    <td class="py-3 px-4 border-b">
                                     <form action="{{ route('cart.upsert') }}" method="POST" class="inline">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $item->pivot->product_id }}">

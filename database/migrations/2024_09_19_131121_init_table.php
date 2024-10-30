@@ -13,22 +13,58 @@ class InitTable extends Migration
      */
     public function up()
     {
-        // Create banners table
+
+    
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->foreignId('category')->constrained('product_categories');
+            $table->decimal('price', 10, 2);
+            $table->integer('stock');
+            $table->string('status');
+            $table->string('image_name')->nullable();
+        });
+
+        Schema::create('product_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+        });
+
+        Schema::create('product_choices', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('choice_name'); 
+            $table->string('choice_option'); 
+        });
+
+        Schema::create('choice_options', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_choice_id')->constrained('product_choices')->onDelete('cascade');
+            $table->string('option_name'); 
+            $table->foreignId('parent_id')->nullable()->constrained('choice_options')->onDelete('cascade'); 
+            $table->timestamps();
+        });
+
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('image_name'); 
+        });
+
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('infomation')->nullable();
-            $table->string('image_name')->nullable();
+            $table->string('information')->nullable();
         });
         
-        // Create users table
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
-            $table->string('image_name')->nullable();
             $table->rememberToken();
         });
 
@@ -46,26 +82,7 @@ class InitTable extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-        
-        // Create product_category table
-        Schema::create('product_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-        });
 
-        // Create products table
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->foreignId('category')->constrained('product_categories');
-            $table->decimal('price', 10, 2);
-            $table->integer('stock');
-            $table->string('status');
-            $table->string('image_name')->nullable();
-        });
-
-        // Create cart_items table
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -80,7 +97,6 @@ class InitTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
         });
 
-        // Create promotions table
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained();
@@ -90,7 +106,6 @@ class InitTable extends Migration
             $table->integer('get_y')->nullable();
         });
 
-        // Create ratings table
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');;
@@ -99,7 +114,6 @@ class InitTable extends Migration
             $table->text('review_text')->nullable();
         });
 
-        // Create orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -107,7 +121,6 @@ class InitTable extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        // Create order_items table
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');

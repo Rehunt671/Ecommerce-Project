@@ -19,10 +19,14 @@
                             @foreach ($o->orderItems as $item)
                                 @if ($item && $item->product) <!-- Check for orderItems and product -->
                                     <tr>
-                                        <td class="py-3 px-4 border-b">{{ $item->product->name }}</td>
+                                        <td class="py-3 px-4 border-b flex items-center space-x-2">
+                                            <span>{{ $item->product->name }}</span>
+                                            <img src="{{ asset('storage/' . $item->product->image_name) }}" alt="{{ $item->product->name }}" class="w-16 h-16 object-cover rounded-md">
+                                        </td>
                                         <td class="py-3 px-4 border-b">{{ $item->quantity_sold }}</td> <!-- Display quantity -->
                                         <td class="py-3 px-4 border-b">{{ $item->price_per_item }}</td> <!-- Display price per item -->
                                         <td class="py-3 px-4 border-b">{{ $item->quantity_sold * $item->price_per_item }}</td> <!-- Display total price -->
+                                             <!-- Display product image -->
                                     </tr>
                                 @endif
                             @endforeach

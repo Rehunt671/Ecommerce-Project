@@ -36,8 +36,7 @@ class WishlistController extends Controller
             $message = 'Product added to wishlist successfully!';
         }
     
-        return redirect()->route('products.category', ['productId' => $request->category_id])
-                            ->with('success', $message);
+        return redirect()->back();
     }
 
     public function removeWishlistProduct(Request $request) {

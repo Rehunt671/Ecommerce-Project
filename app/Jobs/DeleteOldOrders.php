@@ -8,9 +8,9 @@ class DeleteOldOrders
 {
     public function __invoke()
     {
-        // DB::table('orders')
-        // ->where('created_at', '<', now()->subDays(7))
-        // ->whereNull('purchase_date')
-        // ->delete();
+        DB::table('orders')
+        ->where('created_at', '<', now()->subDays(7))
+        ->whereNull('purchase_date')
+        ->delete();
     }
 }
