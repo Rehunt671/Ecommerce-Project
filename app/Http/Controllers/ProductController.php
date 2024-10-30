@@ -16,12 +16,10 @@ class ProductController extends Controller
     {
         $category = ProductCategory::findOrFail($id);
         
-        $query = request()->input('name');
+        // $query = request()->input('name');
         
-        // Get the user ID if the user is authenticated, otherwise set to null
         $userId = Auth::check() ? Auth::id() : null; 
     
-        // Start the query builder for products
         $productsQuery = DB::table('products')
             ->join('product_categories', 'product_categories.id', '=', 'products.category')
             ->select('products.*', 
@@ -44,9 +42,10 @@ class ProductController extends Controller
         $products = $productsQuery
             ->where('product_categories.id', $id)
             ->when($query, function ($queryBuilder) use ($query) {
-                return $queryBuilder->where('products.name', 'like', "%{$query}%");
+                return $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%']);
             })
-            ->paginate(20);
+            ->paginate(12);
+    
     
         return view('product.index', compact('category', 'products'));
     }

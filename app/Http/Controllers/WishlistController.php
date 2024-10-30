@@ -20,17 +20,12 @@ class WishlistController extends Controller
             })
             ->where('wishlists.user_id', $userId) 
             ->select('products.*', 'cart_items.quantity as cart_quantity') 
-            ->paginate(20);
+            ->paginate(10);
     
         return view("wishlist.index", compact("products"));
     }
 
     public function toggleWishlistProduct(Request $request) {
-        // $request->validate([
-        //     'product_id' => 'required|exists:products,id',
-        //     'category_id' => 'required|exists:product_categories,id', 
-        // ]);
-    
         $user = auth()->user();
         
         if ($user->wishlists()->where('product_id', $request->product_id)->exists()) {
@@ -46,11 +41,6 @@ class WishlistController extends Controller
     }
 
     public function removeWishlistProduct(Request $request) {
-        // $request->validate([
-        //     'product_id' => 'required|exists:products,id',
-        //     'category_id' => 'required|exists:product_categories,id', 
-        // ]);
-    
         $user = auth()->user();
         $user->wishlists()->detach($request->product_id);
         $message = 'Product removed from wishlist successfully!';

@@ -83,12 +83,25 @@ services:
             - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
         networks:
             - shop_network
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+        environment:
+            - discovery.type=single-node
+        ports:
+            - 9200:9200
+            - 9300:9300
+        volumes:
+            - elastic_search_data:/usr/share/elasticsearch/data
+        networks:
+            - shop_network
 volumes:
     data:
     pgadmin_data:
     redis_data:
     grafana_data:
     influxdb_data:
+    elastic_search_data:
 
 networks:
     shop_network:

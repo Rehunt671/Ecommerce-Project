@@ -3,7 +3,7 @@
         <h1 >WISH LIST</h1> <!-- Added margin below the title -->
     </section>
 
-        <section>
+    <section>
         <div class="flex justify-between">
             <div class="md:block w-1/6"></div>
             <div class="grid grid-cols-5 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"> 
@@ -13,10 +13,10 @@
             </div>  
             <div class="md:block w-1/6"></div>
         </div>
-        <!-- Pagination Links -->
-        <div class="mt-4"> <!-- Added margin-top here for spacing -->
-            {{ $products->links() }} 
+        <div class="pagination fixed bottom-0 w-full">
+            {{ $products->links() }}
         </div>
     </section>
+
 
 </x-app-layout>

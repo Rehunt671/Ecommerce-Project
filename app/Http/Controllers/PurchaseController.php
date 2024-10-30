@@ -15,7 +15,7 @@ class PurchaseController extends Controller
         $order = $user->orders()
             ->where('id', $orderId)
             ->with(['orderItems.product'])
-            ->paginate(20);
+            ->paginate(12);
     
         return view('purchase.index', compact('order'));
     }
