@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         $category = ProductCategory::findOrFail($id);
         
-        // $query = request()->input('name');
+        $query = request()->input('name');
         
         $userId = Auth::check() ? Auth::id() : null; 
     
@@ -37,15 +37,14 @@ class ProductController extends Controller
                         'cart_items.id as cart_item_id', 
                         'cart_items.quantity as cart_quantity')
             ->orderBy('wishlist_product_id'); 
-        }
-    
-        $products = $productsQuery
+
+            $products = $productsQuery
             ->where('product_categories.id', $id)
             ->when($query, function ($queryBuilder) use ($query) {
                 return $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%']);
             })
             ->paginate(12);
-    
+        }
     
         return view('product.index', compact('category', 'products'));
     }
