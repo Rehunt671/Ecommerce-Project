@@ -1,4 +1,4 @@
-<a href="{{ route('rating.index', ['productId' => $product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl group">
+<a href="{{ route('products.show', ['productId' => $product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl group">
     <div class="relative h-72 rounded-md overflow-hidden">
         <img src="{{ asset('storage/' . $product->image_name) }}" 
              alt="{{ $product->name }}" 
