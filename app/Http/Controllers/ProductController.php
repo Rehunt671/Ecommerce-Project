@@ -38,14 +38,15 @@ class ProductController extends Controller
                         'cart_items.quantity as cart_quantity')
             ->orderBy('wishlist_product_id'); 
 
-            $products = $productsQuery
-            ->where('product_categories.id', $id)
-            ->when($query, function ($queryBuilder) use ($query) {
-                return $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%']);
-            })
-            ->paginate(12);
         }
     
+        $products = $productsQuery
+        ->where('product_categories.id', $id)
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->whereRaw('LOWER(products.name) LIKE ?', ['%' . strtolower($query) . '%']);
+        })
+        ->paginate(12);
+
         return view('product.index', compact('category', 'products'));
     }
 }

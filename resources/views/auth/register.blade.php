@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="flex justify-center items-center mt-10">
+    <div class="flex justify-center items-center mt-60">
         <div class="bg-white bg-opacity-90 rounded-lg p-10 shadow-lg w-full max-w-4xl">
             <form method="POST" action="{{ route('register') }}" class="space-y-4 flex flex-col lg:flex-row lg:space-y-0 lg:space-x-8" enctype="multipart/form-data">
                 @csrf
@@ -57,7 +57,7 @@
                     </div>
                     <!-- Signup Button -->
                     <div class="flex justify-center mt-6">
-                        <button type="submit" class="bg-blue-600 text-white py-3 px-8 rounded-full font-bold transition-all duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none">
                             Signup
                         </button>
                     </div>
