@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
                 'price' => 12.99,
                 'stock' => 200,
                 'status' => 'available',
-                'image_name' => 'chew_bone.jfif',
+                'image_name' => 'chew_bone.jpg',
             ],
             [
                 'name' => 'Catnip Toy',

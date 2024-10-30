@@ -40,7 +40,7 @@ class InitTable extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('user_id')->nullable()->index()->onDelete('cascade');;
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -71,7 +71,7 @@ class InitTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->unique(['user_id', 'product_id']); // Add a unique constraint on user_id and product_id
+            $table->unique(['user_id', 'product_id']);
         });
 
         Schema::create('wishlists', function (Blueprint $table) {
@@ -93,7 +93,7 @@ class InitTable extends Migration
         // Create ratings table
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->foreignId('product_id')->constrained();
             $table->integer('rating');
             $table->text('review_text')->nullable();
@@ -102,18 +102,18 @@ class InitTable extends Migration
         // Create orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); // Links to users table
-            $table->timestamp('purchase_date')->useCurrent()->nullable(); // Date of the sale
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamp('purchase_date')->useCurrent()->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
 
         // Create order_items table
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Links to orders table
-            $table->foreignId('product_id')->constrained(); // Links to products table
-            $table->integer('quantity_sold'); // Quantity of the product sold in this order
-            $table->decimal('price_per_item', 10, 2); // Price of a single product unit at the time of sale
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained(); 
+            $table->integer('quantity_sold');
+            $table->decimal('price_per_item', 10, 2); 
         });
 
         Schema::create('cache', function (Blueprint $table) {

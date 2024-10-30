@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-auth-session-status class="mb-4" :status="session('status')" />
     <div class="flex items-center justify-center ">
-    <div class="bg-white bg-opacity-90 rounded-lg p-10 shadow-lg w-full max-w-4xl mt-60">
+    <div class="bg-white bg-opacity-90 rounded-lg p-10 shadow-lg w-full max-w-4xl mt-40">
         <h1 >Mai Ghao Phung</h1>
 
         <form method="POST" action="{{ route('login') }}" class="space-y-4 flex flex-col lg:space-y-4">

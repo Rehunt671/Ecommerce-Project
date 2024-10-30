@@ -31,10 +31,10 @@ class AddIndexesToTables extends Migration
             $table->index('product_id'); 
         });
 
-        Schema::table('orders', function (Blueprint $table) {
-            $table->index('user_id'); 
-            $table->index('purchase_date'); 
-        });
+        // Schema::table('orders', function (Blueprint $table) {
+        //     $table->index('user_id'); 
+        //     $table->index('purchase_date'); 
+        // });
 
         Schema::table('order_items', function (Blueprint $table) {
             $table->index('order_id');
@@ -71,10 +71,10 @@ class AddIndexesToTables extends Migration
             $table->dropIndex(['product_id']); 
         });
     
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropIndex(['user_id']); 
-            $table->dropIndex(['purchase_date']); 
-        });
+        // Schema::table('orders', function (Blueprint $table) {
+        //     $table->dropIndex(['user_id']); 
+        //     $table->dropIndex(['purchase_date']); 
+        // });
     
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropIndex(['order_id']);
@@ -84,6 +84,7 @@ class AddIndexesToTables extends Migration
         Schema::table('password_reset_tokens', function (Blueprint $table) {
             $table->dropIndex(['token']);
         });
+
     }
     
 }
