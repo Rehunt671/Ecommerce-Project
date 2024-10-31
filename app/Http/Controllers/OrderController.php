@@ -17,8 +17,10 @@ class OrderController extends Controller
     
         // Fetch all orders with products in one query
         $orders = Order::with('orderItems.product') // Eager load the order items and associated products
-                       ->where('user_id', $user->id)
-                       ->get();
+                    ->where('user_id', $user->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
     
         // Separate pending and completed orders
         $pendingOrders = $orders->filter(function ($order) {

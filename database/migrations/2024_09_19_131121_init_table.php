@@ -22,7 +22,8 @@ class InitTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('short_description');
+            $table->text('long_description');
             $table->foreignId('category')->constrained('product_categories');
             $table->decimal('price', 10, 2);
             $table->integer('stock');

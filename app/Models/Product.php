@@ -10,7 +10,8 @@ class Product extends Model
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'description',
+        'short_description',
+        'long_description',
         'category',
         'price',
         'stock',
@@ -36,6 +37,12 @@ class Product extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class, 'ingredient_on_products')
+                    ->withPivot('quantity');
     }
 
     public function users()

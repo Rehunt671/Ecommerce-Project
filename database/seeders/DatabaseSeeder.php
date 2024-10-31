@@ -52,7 +52,8 @@ class DatabaseSeeder extends Seeder
         DB::table('products')->insert([
             [
                 'name' => 'Premium Dog Food',
-                'description' => 'High-quality dog food with essential nutrients.',
+                'short_description' => 'High-quality dog food for optimal health.',
+                'long_description' => 'This premium dog food is designed to provide essential nutrients to keep your dog healthy and active. Made from natural ingredients with added vitamins and minerals.',
                 'category' => 1,  // Foreign key to 'product_categories'
                 'price' => 49.99,
                 'stock' => 100,
@@ -61,8 +62,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Organic Cat Food',
-                'description' => 'Natural ingredients for your feline friends.',
-                'category' => 2,  // Foreign key to 'product_categories'
+                'short_description' => 'Natural food for cats.',
+                'long_description' => 'Our organic cat food is made from high-quality ingredients to provide the nutrients your cat needs. Free from artificial flavors and preservatives.',
+                'category' => 2,
                 'price' => 39.99,
                 'stock' => 150,
                 'status' => 'available',
@@ -70,8 +72,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Dog Toy - Chew Bone',
-                'description' => 'Durable chew bone for dogs of all sizes.',
-                'category' => 3,  // Foreign key to 'product_categories'
+                'short_description' => 'Durable chew toy for dogs.',
+                'long_description' => 'This chew bone is designed to withstand tough bites and keep your dog entertained. Made from durable, pet-safe materials.',
+                'category' => 3,
                 'price' => 12.99,
                 'stock' => 200,
                 'status' => 'available',
@@ -79,8 +82,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Catnip Toy',
-                'description' => 'A fun toy infused with catnip for playful cats.',
-                'category' => 3,  // Foreign key to 'product_categories'
+                'short_description' => 'Catnip-infused toy for playful cats.',
+                'long_description' => 'A fun toy infused with natural catnip to attract cats and encourage playful behavior. Soft and safe for cats of all ages.',
+                'category' => 3,
                 'price' => 7.99,
                 'stock' => 180,
                 'status' => 'available',
@@ -88,8 +92,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Dog Shampoo',
-                'description' => 'Gentle shampoo for a clean and shiny coat.',
-                'category' => 4,  // Foreign key to 'product_categories'
+                'short_description' => 'Gentle dog shampoo for shiny coat.',
+                'long_description' => 'A specially formulated shampoo to clean and maintain a healthy coat. Gentle on the skin, with a mild scent.',
+                'category' => 4,
                 'price' => 15.99,
                 'stock' => 80,
                 'status' => 'available',
@@ -97,6 +102,26 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        DB::table('ingredients')->insert([
+            ['name' => 'Chicken Meal'],
+            ['name' => 'Brown Rice'],
+            ['name' => 'Salmon'],
+            ['name' => 'Carrots'],
+            ['name' => 'Sweet Potatoes'],
+        ]);
+
+        DB::table('ingredient_on_products')->insert([
+            // Premium Dog Food ingredients
+            ['product_id' => 1, 'ingredient_id' => 1, 'quantity' => '500', 'unit' => 'g'], // Chicken Meal
+            ['product_id' => 1, 'ingredient_id' => 2, 'quantity' => '200', 'unit' => 'g'], // Brown Rice
+            // Organic Cat Food ingredients
+            ['product_id' => 2, 'ingredient_id' => 3, 'quantity' => '300', 'unit' => 'g'], // Salmon
+            ['product_id' => 2, 'ingredient_id' => 5, 'quantity' => '100', 'unit' => 'g'], // Sweet Potatoes
+            // Dog Shampoo ingredients
+            ['product_id' => 5, 'ingredient_id' => 4, 'quantity' => '30', 'unit' => 'ml'], // Carrots
+        ]);
+        
+        
         // Seed cart_items table
         DB::table('cart_items')->insert([
             ['user_id' => 1, 'product_id' => 1, 'quantity' => 1],

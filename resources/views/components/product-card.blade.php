@@ -9,7 +9,7 @@
     </div>
     <div class="p-2">
         <h2 class="font-bold text-lg mb-2">{{ $product->name }}</h2>
-        <p class="text-sm text-gray-600">{{ $product->description }}</p>
+        <p class="text-sm text-gray-600">{{ $product->short_description }}</p>
     </div>
 
 

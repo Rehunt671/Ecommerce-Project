@@ -15,10 +15,12 @@ class ProductController extends Controller
 
     public function show($id) {
         $userId = Auth::check() ? Auth::id() : null; 
-
+    
         $productQuery = DB::table('products')
             ->where('products.id', $id)
             ->join('product_categories', 'product_categories.id', '=', 'products.category')
+            ->leftJoin('ingredient_on_products', 'ingredient_on_products.product_id', '=', 'products.id')
+            ->leftJoin('ingredients', 'ingredients.id', '=', 'ingredient_on_products.ingredient_id')
             ->leftJoin('cart_items', function ($join) use ($userId) {
                 $join->on('cart_items.product_id', '=', 'products.id')
                     ->where('cart_items.user_id', '=', $userId);
@@ -31,23 +33,34 @@ class ProductController extends Controller
                 'products.*', 
                 'product_categories.name as category_name',
                 'cart_items.quantity as cart_quantity',
-                'wishlists.id as is_wishlist'
+                'wishlists.id as is_wishlist',
+                DB::raw('STRING_AGG(ingredients.name, \', \') as ingredient_names'),
+                DB::raw('STRING_AGG(ingredient_on_products.quantity::text, \', \') as ingredient_quantities'),
+                DB::raw('STRING_AGG(ingredient_on_products.unit, \', \') as ingredient_units')
+            )
+            ->groupBy(
+                'products.id', 
+                'product_categories.name', 
+                'cart_items.quantity',       
+                'wishlists.id'               
             );
-
+    
         $product = $productQuery->first();
-
+    
         if (!$product) {
             return redirect()->route('products.index')->with('error', 'Product not found.');
         }
-
-        $ratings = DB::table('ratings')
-        ->where('product_id', $id)
-        ->join('users', 'users.id', '=', 'ratings.user_id')
-        ->select('ratings.*', 'users.name as user_name')
-        ->get();
     
-         return view('product.detail', compact('product', 'ratings'));
+        // Fetch ratings for the product
+        $ratings = DB::table('ratings')
+            ->where('product_id', $id)
+            ->join('users', 'users.id', '=', 'ratings.user_id')
+            ->select('ratings.*', 'users.name as user_name')
+            ->get();
+    
+        return view('product.detail', compact('product', 'ratings'));
     }
+    
 
     public function getByCategory($id)
     {

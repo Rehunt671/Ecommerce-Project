@@ -1,4 +1,3 @@
-<!-- component -->
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 <div class="w-full  bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800 opacity-90 fixed top-0 z-50">
   <div x-data="{ open: false }" class="flex flex-col  px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
