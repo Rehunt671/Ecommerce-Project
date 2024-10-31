@@ -1,10 +1,13 @@
 <x-app-layout>
     <div class="container mx-auto p-6">
         <div class="flex flex-col md:flex-row bg-gradient-to-r from-gray-50 via-white to-gray-50 shadow-lg rounded-lg overflow-hidden ">
-            <div class="md:w-1/2 hover:opacity-90  transform transition-opacity duration-300 ">
-                <img src="{{ asset('storage/' . $product->image_name) }}"
-                alt="{{ $product->name }}" 
-                class="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-110" />
+        <div class="md:w-1/2 group hover:opacity-90 transform transition-opacity duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <img 
+                    src="{{ asset('storage/' . $product->image_name) }}" 
+                    alt="{{ $product->name }}" 
+                    class="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-110" 
+                />
             </div>
             <div class="md:w-1/2 p-8 flex flex-col relative ">
                 <h2 class="text-3xl font-semibold text-gray-800 leading-tight">{{ $product->name }}</h2>
@@ -35,7 +38,7 @@
                     </div>
 
                     <button type="button" id="buyButton" class="bg-gradient-to-r from-black to-gray-800 text-white font-semibold rounded-md px-6 py-3 hover:from-gray-800 hover:to-black transition duration-200 focus:outline-none shadow-lg">
-                        Buy Now
+                        Buy
                     </button>
 
                     <form method="POST" action="{{ route('wishlist.toggle') }}" class="inline toggle-wishlist-form">

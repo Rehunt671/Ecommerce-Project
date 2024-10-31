@@ -14,7 +14,11 @@ class InitTable extends Migration
     public function up()
     {
 
-    
+        Schema::create('product_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+        });
+
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -26,37 +30,11 @@ class InitTable extends Migration
             $table->string('image_name')->nullable();
         });
 
-        Schema::create('product_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-        });
-
-        Schema::create('product_choices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->string('choice_name'); 
-            $table->string('choice_option'); 
-        });
-
-        Schema::create('choice_options', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_choice_id')->constrained('product_choices')->onDelete('cascade');
-            $table->string('option_name'); 
-            $table->foreignId('parent_id')->nullable()->constrained('choice_options')->onDelete('cascade'); 
-            $table->timestamps();
-        });
-
-        Schema::create('product_images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('image_name'); 
-        });
-
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('information')->nullable();
+            $table->string('image_name')->nullable();
         });
         
         Schema::create('users', function (Blueprint $table) {
@@ -65,6 +43,7 @@ class InitTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
+            $table->string('image_name')->nullable();
             $table->rememberToken();
         });
 

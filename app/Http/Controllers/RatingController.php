@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rating;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class RatingController extends Controller
 {
     public function getProductRating($productId) {
@@ -41,7 +41,12 @@ class RatingController extends Controller
             'review_text' => $request->review_text
         ]);
 
-        return redirect()->route('rating.index', ['productId' => $productId])
-        ->with('success', 'Your rating has been submitted successfully!');
+        $ratings = DB::table('ratings')
+        ->where('product_id', $productId)
+        ->join('users', 'users.id', '=', 'ratings.user_id')
+        ->select('ratings.*', 'users.name as user_name')
+        ->get();
+        
+        return view('product.detail', compact('product', 'ratings'));
     }
 }

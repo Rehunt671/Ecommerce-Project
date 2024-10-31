@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center mt-4">
             <a href="{{route('rating.form',['productId'=> $item->product->id])}}" class="bg-orange-500 text-white rounded px-4 py-2">ให้คะแนน</a>
             <a class="bg-gray-300 rounded px-4 py-2">ติดต่อผู้ขาย</a>
-            <a class="bg-blue-500 text-white rounded px-4 py-2">ซื้ออีกครั้ง</a>
+            <a href="{{ route('products.show', ['productId' => $item->product->id]) }}"  class="bg-blue-500 text-white rounded px-4 py-2">ซื้ออีกครั้ง</a>
         </div>
         <p class="text-gray-500 text-sm mt-2">จัดส่งภายใน: {{ $item->delivery_date }}</p>
     </div>

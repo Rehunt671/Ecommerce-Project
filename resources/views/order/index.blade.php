@@ -11,7 +11,7 @@
         
         <!-- Pending Orders Section -->
         <div id="pendingOrders" class="tab-content">
-            <h2 class="text-xl font-semibold mb-4">Pending Orders</h2>
+        <h1 class="text-2xl text-left mb-5">Pending Orders</h2>
             @if($pendingOrders->isEmpty())
                 <p>You have no pending orders.</p>
             @else
@@ -25,7 +25,7 @@
 
         <!-- Completed Orders Section -->
         <div id="completedOrders" class="tab-content hidden">
-            <h2 class="text-xl font-semibold mb-4">Completed Orders</h2>
+            <h1 class="text-2xl text-left mb-5">Completed Orders</h1>
             @if($completedOrders->isEmpty())
                 <p>You have no completed orders.</p>
             @else

@@ -15,13 +15,12 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->unique('image_name');
         });
-
     }
 
     public function down()
     {
         Schema::table('product_categories', function (Blueprint $table) {
-            $table->dropUnique(['name']);
+            $table->dropUnique(['name']); // Drop unique constraint from name column
         });
         
         Schema::table('banners', function (Blueprint $table) {

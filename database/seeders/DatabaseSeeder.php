@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
         // Seed banners table
         DB::table('banners')->insert([
             'name' => 'About Us',
-            'infomation' => 'Information about the company or organization.',
+            'information' => 'Information about the company or organization.',
             'image_name' => 'about_us_banner.jpg',
         ]);
 

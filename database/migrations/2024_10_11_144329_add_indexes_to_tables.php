@@ -19,26 +19,18 @@ class AddIndexesToTables extends Migration
 
         Schema::table('cart_items', function (Blueprint $table) {
             $table->index('user_id'); 
-            $table->index('product_id'); 
         });
 
         Schema::table('wishlists', function (Blueprint $table) {
             $table->index('user_id'); 
-            $table->index('product_id'); 
         });
 
         Schema::table('ratings', function (Blueprint $table) {
             $table->index('product_id'); 
         });
 
-        // Schema::table('orders', function (Blueprint $table) {
-        //     $table->index('user_id'); 
-        //     $table->index('purchase_date'); 
-        // });
-
         Schema::table('order_items', function (Blueprint $table) {
             $table->index('order_id');
-            $table->index('product_id'); 
         });
 
         Schema::table('password_reset_tokens', function (Blueprint $table) {
@@ -59,26 +51,18 @@ class AddIndexesToTables extends Migration
     
         Schema::table('cart_items', function (Blueprint $table) {
             $table->dropIndex(['user_id']); 
-            $table->dropIndex(['product_id']); 
         });
     
         Schema::table('wishlists', function (Blueprint $table) {
             $table->dropIndex(['user_id']); 
-            $table->dropIndex(['product_id']); 
         });
     
         Schema::table('ratings', function (Blueprint $table) {
             $table->dropIndex(['product_id']); 
         });
     
-        // Schema::table('orders', function (Blueprint $table) {
-        //     $table->dropIndex(['user_id']); 
-        //     $table->dropIndex(['purchase_date']); 
-        // });
-    
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropIndex(['order_id']);
-            $table->dropIndex(['product_id']); 
         });
     
         Schema::table('password_reset_tokens', function (Blueprint $table) {
