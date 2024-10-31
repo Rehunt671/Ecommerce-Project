@@ -69,6 +69,6 @@ class ProductController extends Controller
                 ->paginate(12);
         });
     
-        return view('product.index', compact('category', 'products'));
+        return view('product.index', compact('category', 'products')); 
     }
 }
