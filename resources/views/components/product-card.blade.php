@@ -1,5 +1,5 @@
-<a href="{{ route('products.show', ['productId' => $product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl group">
-    <div class="relative h-72 rounded-md overflow-hidden">
+<a href="{{ route('products.show', ['productId' => $product->id]) }}" class="w-60 p-2 bg-white rounded-xl transform transition-all duration-300 shadow-lg hover:shadow-2xl group flex flex-col">
+    <div class="relative h-72 rounded-md overflow-hidden flex-grow">
         <img src="{{ asset('storage/' . $product->image_name) }}" 
              alt="{{ $product->name }}" 
              class="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-110" />
@@ -7,18 +7,19 @@
             {{ number_format($product->price, 2) }} ฿
         </h3>
     </div>
-    <div class="p-2">
+    <div class="p-2 flex-grow">
         <h2 class="font-bold text-lg mb-2">{{ $product->name }}</h2>
         <p class="text-sm text-gray-600">{{ $product->short_description }}</p>
     </div>
 
-
-    <div class="flex item-center justify-center mt-6">
-        <button type="button" id="buyButton" class="bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none">
+    <div class="mt-6">
+        <button type="button" id="buyButton" class="bg-black text-white rounded-md w-full px-4 py-2 hover:bg-gray-800 transition duration-200 focus:outline-none">
             Buy Now
         </button>
     </div>
 </a>
+
+
 
 <!-- Modal -->
 <div id="quantityModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
