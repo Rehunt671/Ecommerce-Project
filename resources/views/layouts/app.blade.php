@@ -12,16 +12,10 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href='https://fonts.googleapis.com/css?family=Rubik Bubbles' rel='stylesheet'>
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Livewire Styles -->
-        @livewireStyles
-
-        <!-- from node_modules -->
         <script type="module" src="node_modules/@material-tailwind/html@latest/scripts/popover.js"></script>
 
-        <!-- from cdn -->
         <script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"></script>
     </head>
     <body class="font-sans antialiased">
@@ -45,7 +39,6 @@
                 ↑
             </button>
 
-            @livewireScripts
 
             <script>
                 const scrollToTopBtn = document.getElementById("scrollToTopBtn");
