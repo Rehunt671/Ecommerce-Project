@@ -2,14 +2,15 @@
     <div class="container mx-auto p-6">
         <div class="flex flex-col md:flex-row bg-gradient-to-r from-gray-50 via-white to-gray-50 shadow-lg rounded-lg overflow-hidden border border-gray-200">
             <!-- Image Section -->
-            <div class="md:w-1/2 group hover:opacity-90 transform transition-opacity duration-300 relative overflow-hidden border-2 border-gray-300 rounded-lg">
-                <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                <img 
-                    src="{{ asset('storage/' . $product->image_name) }}" 
-                    alt="{{ $product->name }}" 
-                    class="w-full h-full object-contain transition-transform duration-300 transform group-hover:scale-105 " 
-                />
-            </div>
+            <div class="md:w-1/2 group hover:opacity-90 transform transition-opacity duration-300 relative overflow-hidden border-2 border-gray-300 rounded-lg" style="width: 640px; height: 640px; display: flex; justify-content: center; align-items: center;">
+    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+    <img 
+        src="{{ asset('storage/' . $product->image_name) }}" 
+        alt="{{ $product->name }}" 
+        class="object-contain transition-transform duration-300 transform group-hover:scale-105" 
+        style="max-width: 100%; max-height: 100%; width: auto; height: auto;" 
+    />
+</div>
 
             <!-- Product Details Section -->
             <div class="md:w-1/2 p-8 flex flex-col relative space-y-6">
@@ -52,11 +53,11 @@
                         @endif
                     </div>
                 </div>
-                <div class="absolute bottom-60 flex items-center space-x-1 mt-6">
+                <div class="absolute bottom-40 flex items-center space-x-1 mt-6">
                     <span class="font-semibold">Inventory:</span> 
                     <span >{{$product->stock}} </span>
                 </div>
-                <div class="absolute bottom-40 flex items-center space-x-4 mt-6">
+                <div class="absolute bottom-20 flex items-center space-x-4 mt-6">
                     <p class="text-2xl font-semibold text-gray-800">Quantity:</p>
                     <button id="decreaseQuantity" class="bg-gray-300 hover:bg-gray-400 rounded-md p-3 text-2xl transition duration-200">-</button>
                     <input id="quantity" value="1" min="1" class="border rounded-md px-4 py-2 w-20 text-center text-2xl">
@@ -64,7 +65,7 @@
                 </div>
                 
                 <!-- Action Buttons -->
-                <div class="absolute bottom-10 left-8 right-8 flex items-center justify-between mt-8  ">
+                <div class="absolute bottom-3 left-8 right-8 flex items-center justify-between mt-8  ">
                     <!-- Add to Cart Button -->
                     <form method="POST" action="{{ route('cart.upsert') }}">
                         @csrf
