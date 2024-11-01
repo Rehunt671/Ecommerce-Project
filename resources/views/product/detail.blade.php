@@ -14,37 +14,47 @@
             <!-- Product Details Section -->
             <div class="md:w-1/2 p-8 flex flex-col relative space-y-6">
                 <h2 class="text-4xl font-bold text-gray-800 leading-tight mb-4">{{ $product->name }}</h2>
-                <p class="text-sm text-gray-600 ">
+                <p class="text-sm text-gray-600">
                     <span class="font-semibold">Product ID:</span> 
                     {{ $product->id }}
                 </p>
                 <p class="text-3xl font-extrabold text-gray-900 mt-6">฿{{ number_format($product->price, 2) }}</p>
-                <p class="text-lg text-gray-900 mt-3">
+                <p class="text-lg text-gray-900">
                     <span class="font-semibold">Product Details:</span>
-                     {{ $product->long_description }}
                 </p>
+                {{ $product->long_description }}
                 
-                <div class="mt-6">
+                <div >
                     <p class="text-lg text-gray-900">
-                    <span class="font-semibold">Product Ingredients:</span>
+                        <span class="font-semibold">Product Properties:</span>
                     </p>
-                    <div >
+                    <div>
                         @php
-                            $ingredientNames = explode(',', $product->ingredient_names);
-                            $ingredientQuantities = explode(',', $product->ingredient_quantities);
-                            $ingredientUnits = explode(',', $product->ingredient_units);
+                            $ingredientNames = $product->ingredient_names ? explode(',', $product->ingredient_names) : [];
+                            $ingredientQuantities = $product->ingredient_quantities ? explode(',', $product->ingredient_quantities) : [];
+                            $ingredientUnits = $product->ingredient_units ? explode(',', $product->ingredient_units) : [];
                         @endphp
 
-                        @foreach($ingredientNames as $index => $name)
-                                 <li class="flex items-center text-lg text-gray-900">
-                                    <img src="https://img.icons8.com/?size=100&id=21322&format=png&color=000000" alt="{{ trim($name) }}" class="w-4 h-4 mr-2">
-                                    <span class="font-medium">{{ trim($ingredientQuantities[$index]) }}</span> {{ trim($ingredientUnits[$index]) }} of <span class="ml-1">{{ trim($name) }}</span>
-                                </li>
-                        @endforeach
+                        @if (!empty($ingredientNames) && !empty($ingredientQuantities) && !empty($ingredientUnits))
+                            @foreach ($ingredientNames as $index => $name)
+                                @if (isset($ingredientQuantities[$index]) && isset($ingredientUnits[$index]))
+                                    <li class="flex items-center text-sm space-x-1 text-gray-900">
+                                        <img src="https://img.icons8.com/?size=100&id=21322&format=png&color=000000" 
+                                            alt="{{ trim($name) }}" class="w-4 h-4 mr-2">
+                                        <span>{{ trim($ingredientQuantities[$index]) }}</span>
+                                        {{ trim($ingredientUnits[$index]) }} of
+                                        <span>{{ trim($name) }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @else
+                            <p class="text-sm text-gray-500">No properties details available.</p>
+                        @endif
                     </div>
                 </div>
-                <div class="absolute bottom-60 flex items-center space-x-4 mt-6">
-                    <span class="font-semibold">Inventory: {{$product->stock}} </span>
+                <div class="absolute bottom-60 flex items-center space-x-1 mt-6">
+                    <span class="font-semibold">Inventory:</span> 
+                    <span >{{$product->stock}} </span>
                 </div>
                 <div class="absolute bottom-40 flex items-center space-x-4 mt-6">
                     <p class="text-2xl font-semibold text-gray-800">Quantity:</p>
